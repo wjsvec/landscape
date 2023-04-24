@@ -1,74 +1,54 @@
-> The cloud native landscape guide was initiated by the
-> [CNCF Business Value Subcommittee](https://github.com/cncf/business-value)
-> and [Cartografos group](https://github.com/cncf/cartografos). It was authored by
-> [Jason Morgan](https://www.linkedin.com/in/jasonmorgan2/) and 
-> [Catherine Paganini](https://www.linkedin.com/in/catherinepaganini/), 
-> edited and reviewed by [Simon Forster](https://www.linkedin.com/in/forsters/) and
-> [Ihor Dvoretskyi](https://www.linkedin.com/in/idvoretskyi/), built by 
-> [Jordi Noguera](https://www.linkedin.com/in/jordinoguera/) with UX consultation 
-> from [Andrea Velázquez](https://www.linkedin.com/in/andreavelazquez1/).
+> 云原生景观图指南由 ]CNCF 商业价值小组委员会](https://github.com/cncf/business-value) 
+> 和 [Cartografos 团队](https://github.com/cncf/cartografos)发起。
+> 本指南由 [Jason Morgan](https://www.linkedin.com/in/jasonmorgan2/) 
+> 和 [Catherine Paganini](https://www.linkedin.com/in/catherinepaganini/) 撰写，
+> 由 [Simon Forster](https://www.linkedin.com/in/forsters/) 
+> 和 [Ihor Dvoretskyi](https://www.linkedin.com/in/idvoretskyi/) 编辑和审查，
+> 并由 [Jordi Noguera](https://www.linkedin.com/in/jordinoguera/) 
+> 使用 [Andrea Velázquez](https://www.linkedin.com/in/andreavelazquez1/) 的 UX 咨询构建。
 
-## Introduction
 
-If you've researched cloud native applications and technologies, you've probably come
-across the [CNCF cloud native landscape](https://landscape.cncf.io). Unsurprisingly,
-the sheer scale of it can be overwhelming. So many categories and so many technologies.
-How do you make sense of it?
 
-As with anything else, if you break it down and analyze it one piece at a time, you'll
-find it's not that complex and makes a lot of sense. In fact, the map is neatly organized
-by functionality and, once you understand what each category represents, navigating it
-becomes a lot easier.
+## 介绍
 
-In this guide, we’ll break this mammoth landscape down and provide a high-level overview
-of its layers, columns, and categories.
+如果你已经研究过云原生应用和技术，那么你可能已经偶遇过 [CNCF 云原生景观图](https://landscape.cncf.io)相关内容。这并不奇怪，其规模之大可能会让你不知所措。其中有那么多类别和那么多技术，你要如何理清它们呢？
 
-### What is the cloud native landscape?
+和其他任何技术一样，如果把它分解开来并逐个分析，你会发现它并不那么复杂，而且非常合情合理。事实上，这张地图是按功能整齐地组织起来的，当你理解了每个类别所代表的含义，就很容易用它来”导航”了。
 
-The goal of the cloud native landscape is to compile and organize all cloud native open
-source projects and proprietary products into categories, providing an overview of the
-current ecosystem. Organizations that have a cloud native project or product can
-[submit a PR](https://github.com/cncf/landscape/) to request it to be added to the
-landscape.
+在本指南中，我们会逐步拆解这个巨大的景观，并提供其层次、列和类别的高层次概述。
 
-### How to use this guide
+### 什么是云原生景观图？
 
-In this guide, you'll find one chapter per layer and column which discusses each category
-within it. Categories are broken down into: what it is, the problem it addresses, how it
-helps, and technical 101. While the first three sections assume no technical background,
-the technical 101 is targeted to engineers just getting started with cloud native. We
-also included a section for associated buzzwords and lists CNCF projects
+云原生景观图的目标是将所有云原生开源项目和专有产品分类编写并组织起来，提供当前云原生生态系统的概览。拥有云原生项目或产品的组织可以[提交PR](https://github.com/cncf/landscape/)来请求将其添加到景观图中。
+
+### 如何使用本指南
+
+在本指南中，景观图中每一层和列都有一章讨论其中的每个类别。类别有：它是什么，它解决什么问题，它如何帮助（解决问题）以及 technical 101。前三个部分都假定读者是没有技术背景的情况， technical 101则面向刚开始使用云原生的工程师。我们还包括了一个相关术语和 CNCF 项目列表的部分。
+
 
 ![CNCF Landscape](https://landscape.cncf.io/images/landscape_preview.png "CNCF Landscape")
 
-> ##### INFOBOX
+> ##### 信息框
 >
-> When looking at the landscape, you'll note a few distinctions:
->  * *Projects in large boxes* are CNCF-hosted open source projects. Some are still in
->    the incubation phase (light blue/purple frame), while others are graduated
->    projects (dark blue frame).
->  * *Projects in small white boxes* are open source projects.
->  * *Products in gray boxes* are proprietary products.
+> 观察这个景象，你会注意到一些区别：
+>  * *大盒子中的项目* 是CNCF托管的开源项目。有些仍处于孵化阶段（浅蓝/紫色边框），而其他则是毕业项目（深蓝色边框）。
+>  * *小白盒子中的项目* 是开源项目。
+>  * *灰色盒子中的产品* 是专利产品。
 >
-> Please note that new projects are continuously becoming part of the CNCF so
-> always refer to the actual landscape – things are moving fast!
+> 请注意新项目正在不断成为CNCF的一部分，因此请多多参考实际的景观图 - 事物日新月异！
 
 <section data-category="Provisioning">
+## 供应层
 
-Provisioning is the first layer in the cloud native landscape. It encompasses tools that
-are used to *create and harden* the foundation on which cloud native apps are built.
-You'll find tools to automatically configure, create, and manage the infrastructure,
-as well as  for scanning, signing, and storing container images. The layer also extends
-to security with tools that enable policy setting and enforcement, embedded authentication
-and authorization, and the handling of secrets distribution. That's a mouthful, so let's
-discuss each category at a time.
+供应层是云原生景观图中的第一层。它包括用于创建和加固云原生应用程序构建基础的工具。在这里你将找到自动配置、创建和管理基础设施的工具，以及用于扫描、签名和存储容器镜像的工具。该层还扩展到安全领域，具备使策略设置和执行、嵌入式身份验证和授权以及处理密钥分发的工具。这听起来很拗口，所以让我们一个一个类别来讨论。
 
 </section>
 
 <section data-subcategory="Automation & Configuration" 
          data-buzzwords="Infrastructure-as-Code (IaC), Automation, Declarative Configuration">
+### 自动化与配置 (Automation and Configuration)
 
-#### What it is
+#### 它是什么
 
 Automation and configuration tools speed up the creation and configuration of compute
 resources (virtual machines, networks, firewall rules, load balancers, etc.). Tools in
@@ -76,7 +56,7 @@ this category either handle different parts of the provisioning process or try t
 everything end-to-end. Most provide the ability to integrate with other projects and
 products in the space.
 
-#### Problem it addresses
+#### 它解决什么问题
 
 Traditionally, IT processes relied on lengthy and labor intensive manual release cycles,
 typically between three to six months. Those cycles came with lots of human processes and
@@ -85,7 +65,7 @@ and static environments aren’t compatible with cloud native development. To de
 rapid development cycles, infrastructure must be provisioned dynamically and without
 human intervention.
 
-#### How it helps
+#### 它如何帮助（解决问题）
 
 Tools of this category allow engineers to build computing environments without human
 intervention. By codifying the environment setup it becomes reproducible with the click
