@@ -586,563 +586,308 @@ Kubernetes，或者更普遍的说容器化环境，具有极大的灵活性和�
 
 #### 它如何帮助（解决问题）
 
-Tools in this space aim to solve some of these developer or operator challenges. On the developer 
-side, there are tools that simplify the process of extending Kubernetes to build, deploy, and 
-connect applications. A number of projects and products help to store or deploy pre-packaged apps. 
-These allow operators to quickly deploy a streaming service like NATS or Kafka or install a service 
-mesh like Linkerd.
+该领域中的工具旨在解决一些开发人员或运维人员的挑战。在开发人员方面，有一些工具简化了扩展 Kubernetes 来构建、部署和连接应用程序的过程。许多项目和产品可帮助存储或部署预打包的应用程序。这些允许运营商快速部署像 NATS 或 Kafka 这样的流服务，或者安装像 Linkerd 这样的服务网格。
 
-Developing cloud native applications brings a whole new set of challenges calling for a large set 
-of diverse tools to simplify application build and deployments. As you start addressing operational 
-and developer concerns in your environment, look for tools in this category.
+开发云原生应用程序带来了一整套新的挑战，需要大量不同的工具来简化应用程序构建和部署。当您开始解决环境中的运营和开发人员问题时，请寻找此类工具。
 
 #### Technical 101
 
-Application definition and build tools encompass a huge range of functionality. From extending 
-Kubernetes to virtual machines with KubeVirt, to speeding app development by allowing you to port 
-your development environment into Kubernetes with tools like Telepresence. At a high level, tools 
-in this space solve either developer-focused concerns, like how to correctly write, package, test, 
-or run custom apps, or operations-focused concerns, such as deploying and managing applications.
+应用定义和构建工具涵盖了大量的功能。从使用 KubeVirt 扩展 Kubernetes 到虚拟机，到通过类似 Telepresence 的工具将开发环境移植到 Kubernetes 以加速应用程序开发。在较高层面上，这个空间中的工具解决了开发人员关心的问题，如如何正确编写、打包、测试或运行自定义应用程序，或者解决了操作人员关心的问题，如部署和管理应用程序。
 
-Helm, the only graduated project in this category, underpins many app deployment patterns. Helm 
-allows Kubernetes users to deploy and customize many popular third-party apps, and it has been 
-adopted by other projects like the Artifact Hub (a CNCF sandbox project). Companies like Bitnami 
-also provide curated catalogs of apps. Finally, Helm is flexible enough to allow users to customize 
-their own app deployments and is often used by organizations for their own internal releases.
+Helm 是该类别中唯一一个毕业项目，它支持许多应用程序部署模式。Helm 允许 Kubernetes 用户部署和自定义许多流行的第三方应用程序，并已被其他项目如 Artifact Hub（CNCF沙盒项目）采用。像 Bitnami 这样的公司还提供了策划的应用程序目录。最后，Helm 足够灵活，可以让用户自定义自己的应用程序部署，并经常被组织用于其自己的内部发布。
 
-The Operator Framework is an incubating project aimed at simplifying the process of building and 
-deploying operators. Operators are out of scope for this guide but let's note here that they help 
-deploy and manage apps, similar to Helm (you can read more about operators 
-[here](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)). Cloud Native Buildpacks, 
-another incubating project, aims to simplify the process of building application code into 
-containers.
+Operator Framework 是一个孵化项目，旨在简化构建和部署运算符的过程。运算符超出了本指南的范围，但让我们在这里注意一下，它们有助于部署和管理应用程序，类似于 Helm（您可以在[此处](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)阅读有关运算符的更多信息）。Cloud Native Buildpacks 是另一个孵化项目，旨在简化将应用程序代码构建为容器的过程。
 
-There’s a lot more in this space and exploring it all would require a dedicated chapter. But 
-research these tools further if you want to make Kubernetes easier for developers and operators. 
-You’ll likely find something that meets your needs.
+在这个空间中还有很多内容，如果您想让Kubernetes更易于开发人员和操作人员使用，请进一步研究这些工具。您可能会发现符合您需求的工具。
 
 </section>
 
 <section data-subcategory="Continuous Integration & Delivery"
          data-buzzwords="CI/CD, Continuous integration, Continuous delivery, Continuous deployment, Blue/green, Canary deploy">
 
+### 持续集成和交付
+
 #### 它是什么
 
-Continuous integration (CI) and continuous delivery (CD) tools enable fast and efficient development 
-with embedded quality assurance. CI automates code changes by immediately building and testing the 
-code, ensuring it produces a deployable artifact. CD goes one step further and pushes the artifact 
-through the deployment phases.
+持续集成（CI）和持续交付（CD）工具可以实现嵌入式质量保证的快速高效开发。CI 自动化代码更改，立即构建和测试代码，确保它产生可部署的工件。CD 更进一步，将工件通过部署阶段。
 
-Mature CI/CD systems watch source code for changes, automatically build and test the code, then 
-begin moving it from development to production where it has to pass a variety of tests or validation 
-to determine if the process should continue or fail. Tools in this category enable such an approach.
+成熟的 CI/CD 系统监视源代码的更改，自动构建和测试代码，然后开始将其从开发移动到生产环境，其中必须通过各种测试或验证来确定流程是否应继续或失败。该类别中的工具使这种方法成为可能。
 
 #### 它解决什么问题
 
-Building and deploying applications is a difficult and error-prone process, particularly when it 
-involves a lot of human intervention and manual steps. The longer a developer works on a piece of 
-software without integrating it into the codebase, the longer it will take to identify an error and 
-the more difficult it will be to fix. By integrating code on a regular basis, errors are caught 
-early and are easier to troubleshoot. After all, finding an error in a few lines of code is a lot 
-easier than doing so in a few hundred lines of code, or, even worse, finding it once it reaches 
-production.
+构建和部署应用程序是一个困难且容易出错的过程，特别是当它涉及大量人工干预和手动步骤时。开发人员在没有将软件集成到代码库中的情况下工作的时间越长，发现错误的时间就越长，修复起来就越困难。通过定期集成代码，可以早期发现错误并更容易进行故障排除。毕竟，在几行代码中找到错误要比在几百行代码中找到错误容易得多。更糟的甚至是，在生产环境中发现错误。
 
-While tools like Kubernetes offer great flexibility for running and managing apps, they also create 
-new challenges and opportunities for CI/CD tooling. Cloud native CI/CD systems are able to 
-leverage Kubernetes itself to build, run, and manage the CI/CD process, often referred to as a 
-pipeline. Kubernetes also provides information about app health, enabling cloud native CI/CD tools 
-to more easily determine if a given change was successful or should be rolled back.
+虽然像 Kubernete s这样的工具为运行和管理应用程序提供了极大的灵活性，但它们也为 CI/CD 工具提供了新的挑战和机会。云原生 CI/CD 系统可以利用 Kubernetes 本身来构建、运行和管理 CI/CD 流程，通常称为管道。 Kubernetes 还提供有关应用程序健康状况的信息，使云原生 CI/CD 工具更容易确定给定的更改是否成功或应该回滚。
 
 #### 它如何帮助（解决问题）
 
-CI tools ensure that any code change or updates developers introduce are built, validated, and 
-integrated with other changes automatically and continuously. Each time a developer adds an update, 
-automated testing is triggered to ensure only good code makes it into the system. CD extends CI to 
-include pushing the result of the CI process into production-like and production environments.
+CI 工具确保开发人员引入的任何代码更改或更新都会自动连续地构建、验证和集成到其他更改中。每当开发人员添加更新时，自动化测试会触发，以确保只有良好的代码进入系统。CD 将 CI 扩展到包括将 CI 过程的结果推入类似于生产和生产环境的环境中。
 
-Let's say a developer changes the code for a web app. The CI system sees the code change, then 
-builds and tests a new version of that web app. The CD system takes that new version and deploys 
-it into a dev, test, pre-production, and finally production environment. It does that while testing 
-the deployed app after each step in the process. All together these systems represent a CI/CD 
-pipeline for that web app.
+假设开发人员更改 Web 应用程序的代码。CI 系统看到代码更改，然后构建和测试该 Web 应用程序的新版本。CD 系统将该新版本部署到开发、测试、预生产和最终生产环境中。在此过程的每个步骤中测试部署的应用程序。所有这些系统共同代表了该 Web 应用程序的 CI/CD 流水线。
 
 #### Technical 101
 
-Over time, a number of tools have been built to help with the process of moving code from a source 
-code repository to production. Like most other areas of computing, the advent of cloud native 
-development has changed CI/CD systems. Some traditional tools like Jenkins, probably the most 
-prolific CI tool on the market, have [overhauled](https://jenkins-x.io/) themselves entirely to 
-better fit into the Kubernetes ecosystem. Others, like Flux and Argo have pioneered a new way of 
-doing continuous delivery called GitOps, which the OpenGitOps project is working to define as a
-vendor-neutral standard.
+随着时间的推移，许多工具已被构建来帮助将代码从源代码仓库移动到生产环境中。像计算机的大多数其他领域一样，云原生开发的出现改变了 CI/CD 系统。一些传统工具如 Jenkins，可能是市场上最流行的 CI 工具，已经完全进行了 [改革](https://jenkins-x.io/)，以更好地适应 Kubernetes 生态系统。其他工具，如 Flux 和 Argo，开创了一种名为 GitOps 的连续交付新方法，OpenGitOps 项目正在努力将其定义为供应商中立的标准。
 
-In general, you’ll find projects and products in this space are either (1) CI systems, (2) CD 
-systems, (3) tools that help the CD system decide if the code is ready to be pushed into production, 
-or (4), in the case of Spinnaker and Argo, all three. Flux and Argo are CNCF gratuated projects in this 
-space, Keptn is the CNCF incubating project, along with the CNCF sandbox projects 
-OpenFeature, OpenGitOps and OpenKruise.
-You can also find many more options hosted by the 
-[Continuous Delivery Foundation](https://cd.foundation/). Look for tools in this space to help 
-your organization automate your path to production.
+一般来说，您会发现这个领域的项目和产品要么是（1）CI 系统，（2）CD 系统，（3）帮助 CD 系统决定代码是否准备好被推入生产环境的工具，或者（4）对 Spinnaker 和 Argo 的情况，是全部三者。Flux 和 Argo 是这个领域的 CNCF 毕业项目，Keptn 是 CNCF 孵化项目，以及 CNCF 沙盒项目 OpenFeature、OpenGitOps 和 OpenKruise。您还可以在 [Continuous Delivery Foundation](https://cd.foundation/) 中找到许多更多的选项。寻找此领域的工具，以帮助您的组织自动化通往生产环境的路径。
 
 </section>
 
-### Summary: App Definition & Development
+### 总结：应用程序定义和开发
 
-As we've seen, tools in the application definition and development layer enable engineers to build 
-cloud native apps. You'll find databases to store and retrieve data or streaming and messaging 
-tools allowing for decoupled, choreographed architectures. Application definition and image build 
-tools include a variety of technologies that improve the developer and operator experience. 
-Finally, CI/CD helps engineers catch any errors early on, ensuring code is ready for deployment 
-by driving up  quality.
+正如我们所看到的，应用程序定义和开发层中的工具使工程师能够构建云本机应用程序。您将找到用于存储和检索数据的数据库，以及用于解耦和编排架构的流媒体和消息传递工具。应用程序定义和镜像构建工具包括各种技术，可改善开发人员和操作员的体验。最后，CI/CD 帮助工程师及早捕捉任何错误，确保代码准备好进行部署，从而提高质量。
 
-This chapter concludes the layers of the CNCF landscape. Next we'll focus on the observability and 
-analysis "column."
+本章总结了CNCF景观的各个”层“。接下来，我们将重点关注”可观察性和分析”这一列。
 
 <section data-category="Observability and Analysis">
 
-Now that we've worked our way through the layers of the CNCF landscape, we'll focus on the columns 
-starting with observability and analysis.
+### 可观测性和分析
 
-Before diving into these categories, let's first define observability and analysis. Observability 
-is a system characteristic describing the degree to which a system can be understood from its 
-external outputs. Measured by CPU time, memory, disk space, latency, errors, etc., computer systems 
-can be more or less observable. Analysis is an activity in which you look at this observable data 
-and make sense of it.
+我们已经浏览了CNCF景观的各层，我们现在将关注可观测性和分析的列。
 
-To ensure there is no service disruption, you'll need to observe and analyze every aspect of your 
-application so every anomaly gets detected and rectified right away. This is what this category is 
-all about. It runs across and observes all layers which is why it's on the side and not embedded 
-in a specific layer.
+在深入探讨这些类别之前，让我们先定义可观测性与分析。可观测性是一个系统特征，描述了一个系统可以从其外部输出中被理解的程度。计算机系统可以通过 CPU 时间、内存、磁盘空间、延迟、错误等来衡量其可观测性。分析是一种活动，通过观测到的数据来理解它。
 
-Tools in this category are broken down into logging, monitoring, tracing, and chaos engineering. 
-Please note that the category name is somewhat misleading — although chaos engineering is listed 
-here, consider it a reliability tool rather than an observability or analysis tool.
+为了确保没有服务中断，您需要观测和分析应用程序的每个方面，以便立即检测和纠正每个异常。这就是这个类别的全部内容。它跨越并观测所有层，这就是为什么它在侧面而不是嵌入到特定层中。
+
+这个类别中的工具被分成了日志记录、监控、追踪和混沌工程。请注意，类别名称有些误导——虽然混沌工程列在这里，但请将其视为可靠性工具，而不是可观测性和分析工具。
 
 </section>
 
 <section data-subcategory="Monitoring"
          data-buzzwords="Monitoring, Time series, Alerting, Metrics">
 
+### 监控
+
 #### 它是什么
 
-Monitoring refers to instrumenting an app to collect, aggregate, and analyze logs and metrics to 
-improve our understanding of its behavior. While logs describe specific events, metrics are a 
-measurement of a system at a given point in time — they are two different things but both necessary 
-to get the full picture of your system's health. Monitoring includes everything from watching disk 
-space, CPU usage, and memory consumption on individual nodes to doing detailed synthetic 
-transactions to see if a system or application is responding correctly and in a timely manner. 
-There are a number of different approaches to monitor systems and applications.
+监控指的是对应用程序进行仪器化，收集、聚合和分析日志和指标，以改善我们对其行为的理解。虽然日志描述了特定事件，但指标是在给定时间点上对系统的测量-它们是两种不同的东西，但都是必要的，以获得系统健康的完整图片。监控包括从在单个节点上监视磁盘空间、CPU 使用率和内存消耗，到执行详细的合成事务，以查看系统或应用程序是否正确响应且及时。有许多不同的监控系统和应用程序监控方法。
 
 #### 它解决什么问题
 
-When running an application or platform, you want it to accomplish a specific task as designed and 
-ensure it's only accessed by authorized users. Monitoring allows you to know if it is working 
-correctly, securely, cost effectively, only accessed by authorized users, as well as any other 
-characteristic you may be tracking.
+运行应用程序或平台时，您希望它按设计完成特定任务，并确保只有经授权的用户访问它。监控使您能够知道它是否正常运行，安全、经济高效，只被授权用户访问，以及您可能正在跟踪的任何其他特征。
 
 #### 它如何帮助（解决问题）
 
-Good monitoring allows operators to respond quickly, and even automatically, when an incident 
-arises. It provides insights into the current health of a system and watches for changes. 
-Monitoring tracks everything from application health to user behaviour and is an essential 
-part of effectively running applications.
+良好的监控使运营商可以在发生事故时迅速甚至自动地做出反应。它提供了有关系统当前健康状况的见解，并监视变化。监控跟踪从应用程序健康状况到用户行为的所有内容，是有效运行应用程序的必要部分。
 
 #### Technical 101
 
-Monitoring in a cloud native context is generally similar to monitoring traditional applications. 
-You need to track metrics, logs, and events to understand the health of your applications. The 
-main difference is that some of the managed objects are ephemeral, meaning they may not be long 
-lasting so tying your monitoring to objects like auto generated resource names won’t be a good long 
-term strategy. There are a number of CNCF projects in this space that largely revolve around 
-Prometheus, the CNCF graduated project.
+在云原生环境中的监控通常类似于监控传统应用程序。您需要跟踪指标、日志和事件，以了解应用程序的健康状况。主要区别在于，一些托管对象是短暂的，意味着它们可能不会长期存在，因此将您的监视与自动生成的资源名称等对象相关联可能不是一个好的长期策略。在这个领域有许多 CNCF 项目，主要围绕着 CNCF 毕业项目 Prometheus。
 
 </section>
 
 <section data-subcategory="Logging"
          data-buzzwords="Logging">
 
+### 日志记录
+
 #### 它是什么
 
-Applications emit a steady stream of log messages describing what they are doing at any given time. 
-These log messages capture various events happening in the system such as failed or successful 
-actions, audit information, or health events. Logging tools collect, store, and analyze these 
-messages to track error reports and related data. Along with metrics and tracing, logging is one 
-of the pillars of observability.
+应用程序会不断发出描述其在任何给定时间正在执行的操作的日志消息。这些日志消息捕获系统中发生的各种事件，例如失败或成功的操作、审计信息或健康事件。日志记录工具收集、存储和分析这些消息，以跟踪错误报告和相关数据。除了指标和跟踪，日志记录是可观察性的支柱之一。
 
 #### 它解决什么问题
 
-Collecting, storing, and analyzing logs is a crucial part of building a modern platform and 
-logging performs one or all of those tasks. Some tools handle every aspect from collection to 
-analysis while others focus on a single task like collection. All logging tools aim at helping 
-organizations gain control over their log messages.
+收集、存储和分析日志是构建现代平台的关键部分，而日志记录执行其中一项或全部任务。有些工具从收集到分析处理所有方面，而其他工具则专注于单个任务，如收集。所有日志记录工具的目标都是帮助组织控制其日志消息。
 
 #### 它如何帮助（解决问题）
 
-When collecting, storing, and analyzing application log messages, you'll understand what an 
-application was communicating at any given time. But as logs only represent messages that 
-applications or platforms deliberately emit, they don’t necessarily pinpoint the root cause of a 
-given issue. That being said, collecting and retaining log messages over time is an extremely 
-powerful capability and will help teams diagnose issues and meet regulatory and compliance 
-requirements.
+当收集、存储和分析应用程序日志消息时，您将了解应用程序在任何给定时间正在传达什么信息。但由于日志仅代表应用程序或平台有意发出的消息，因此它们不一定能准确定位给定问题的根本原因。话虽如此，长时间收集和保留日志消息是一种极其强大的能力，将帮助团队诊断问题并满足监管和合规要求。
 
 #### Technical 101
 
-Collecting, storing, and processing log messages is by no means a new problem, but cloud native 
-patterns and Kubernetes have significantly changed the way logs are handled. Some traditional 
-approaches to logging that were appropriate for virtual and physical machines, like writing logs 
-to a file on a local disk, are ill suited to containerized applications, where  file systems don't 
-outlast an application. In a cloud native environment, log collection tools like Fluentd run 
-alongside application containers and collect messages directly from the applications. Messages 
-are then forwarded on to a central log store to be aggregated and analyzed.
+收集、存储和处理日志消息绝非一个新问题，但云原生模式和 Kubernetes 已经显著改变了日志处理方式。某些传统的日志记录方法适用于虚拟和物理机器，例如将日志写入本地磁盘上的文件，但对于容器化的应用程序则不适用，因为文件系统不会超过应用程序的生命周期。在云原生环境中，类似 Fluentd 的日志收集工具与应用程序容器并行运行，直接从应用程序中收集消息。然后将消息转发到中央日志存储以进行聚合和分析。
 
-Fluentd is the only CNCF project in this space.
+Fluentd 是该领域唯一的 CNCF 项目。
 
 </section>
 
 <section data-subcategory="Tracing"
          data-buzzwords="Span, Tracing">
 
+### Tracing 
+
 #### 它是什么
 
-In a microservices world, services are constantly communicating with each other over the network. 
-Tracing, a specialized use of logging, allows you to trace the path of a request as it moves 
-through a distributed system.
+在微服务的世界中，服务通过网络不断地相互通信。Tracing 是日志的专业应用，可以让您跟踪分布式系统中请求的路径。
 
 #### 它解决什么问题
 
-Understanding how a microservice application behaves at any given point in time is an extremely 
-challenging task. While many tools provide deep insights into service behavior, it can be difficult 
-to tie an action of an individual service to the broader understanding of how the entire app 
-behaves.
+在任何时间点上理解微服务应用程序的行为是一项极具挑战性的任务。虽然许多工具提供了深入的服务行为洞察，但很难将一个单独服务的操作与整个应用程序的行为联系起来。
 
 #### 它如何帮助（解决问题）
 
-Tracing solves this problem by adding a unique identifier to messages sent by the application. 
-That unique identifier allows you to follow (or trace) individual transactions as they move through 
-your system. You can use this information to see the health of your application as well as 
-debug problematic microservices or activities.
+Tracing 通过为应用程序发送的消息添加唯一标识符来解决这个问题。该唯一标识符允许您跟踪（或跟踪）个别事务在系统中的移动。您可以使用此信息来查看应用程序的健康状况，以及调试有问题的微服务或活动。
 
 #### Technical 101
 
-Tracing is a very powerful debugging tool that allows you to troubleshoot and fine tune the 
-behaviour of a distributed application. That power does come at a cost. Application code needs 
-to be modified to emit tracing data and any spans (a representation of individual units of work 
-done in a distributed system) need to be propagated by infrastructure components (e.g. service 
-meshes and their proxies) in the data path of your application. Jaeger and Open Tracing are CNCF 
-projects in this space.
+Tracing 是一种非常强大的调试工具，可以帮助您调试和微调分布式应用程序的行为。这种强大的功能有一定的代价。应用程序代码需要进行修改以发出跟踪数据，并且需要在应用程序的数据路径上传播任何跨度（表示分布式系统中完成的单个工作单元的表示）。Jaege r和 Open Tracing 是 CNCF 在此领域的项目。
 
 </section>
 
 <section data-subcategory="Chaos Engineering"
          data-buzzwords="Chaos Engineering">
 
+### 混沌工程
+
 #### 它是什么
 
-Chaos engineering refers to the practice of intentionally introducing faults into a system in 
-order to test its resilience and ensure applications and engineering teams are able to withstand 
-turbulent and unexpected events. A chaos engineering tool will provide a controlled way to 
-introduce faults and run specific experiments against a particular instance of an application.
+混沌工程是指有意地向系统引入故障，以测试其弹性并确保应用程序和工程团队能够承受动荡和意外事件的做法。混沌工程工具提供了一种受控的方式来引入故障，并针对特定应用程序实例运行特定的实验。
 
 #### 它解决什么问题  
 
-Complex systems fail. They fail for a host of reasons and in a distributed system the consequences 
-are typically hard to understand. Chaos engineering is embraced by organizations that accept that 
-failures will occur and, instead of trying to prevent failures, practice recovering from them. 
-This is referred to as optimizing for 
-[mean time to repair](https://en.wikipedia.org/wiki/Mean_time_to_repair), or MTTR.
+复杂的系统会出现故障。它们失败的原因很多，在分布式系统中，后果通常难以理解。接受故障将会发生的组织采用混沌工程，而不是试图防止故障，实践从故障中恢复。这被称为[优化修复时间均值（mean time to repair）](https://en.wikipedia.org/wiki/Mean_time_to_repair), 或MTTR。
 
-> ##### INFOBOX
-> 
-> The traditional approach to maintaining high availability for applications is referred to as 
-> optimizing for [mean time between failures](https://en.wikipedia.org/wiki/Mean_time_between_failures), 
-> or MTBF. You can observe this practice in organizations that use things like "change review 
-> boards" and "long change freezes" to keep an application environment stable by restricting 
-> changes. The authors of [Accelerate](https://itrevolution.com/accelerate-book/) suggest that 
-> high performing IT organizations achieve high availability by optimizing for mean time to 
-> recovery, or MTTR, instead.
+> ##### 信息框
+>传统的维护应用程序高可用性的方法被称为[优化故障间隔时间均值（mean time between failures）](https://en.wikipedia.org/wiki/Mean_time_between_failures), 或 MTBF。您可以在使用“变更评审委员会”和“长变更冻结”等措施限制变更以保持应用程序环境稳定的组织中观察到此做法。[《Accelerate》](https://itrevolution.com/accelerate-book/)的作者认为，高绩效IT组织通过优化修复时间均值（MTTR）实现高可用性。
 
 #### 它如何帮助（解决问题）
-In a cloud native world, applications must dynamically adjust to failures, a relatively new 
-concept. That means, when something fails, the system doesn't go down completely but gracefully 
-degrades or recovers. Chaos engineering tools enable you to experiment on a software system in 
-production to ensure they perform gracefully should a real failure occur.
+在云原生世界中，应用程序必须动态地适应故障，这是一个相对较新的概念。这意味着当某些东西失败时，系统不会完全崩溃，而是会优雅地降级或恢复。混沌工程工具使您能够在生产中对软件系统进行实验，以确保它们在真正的故障发生时能够优雅地运行。
 
-In short, you experiment with a system because you want to be confident that it can withstand 
-turbulent and unexpected conditions. Instead of waiting for something to happen and find out, you 
-place it under duress in controlled conditions to identify weaknesses and fix them before chance 
-uncovers them for you.
-
+简而言之，您通过实验一个系统，因为您想要确信它可以承受动荡和意外的条件。您不是等待某些事情发生并发现它，而是在受控条件下将其置于压力之下，以确定弱点并在机会揭示它们之前修复它们。
 #### Technical 101
 
-Chaos engineering tools and practices are critical to achieving high availability for your 
-applications. Distributed systems are often too complex to be fully understood by any one engineer 
-and no change process can fully predetermine the impact of changes on an environment. By 
-introducing deliberate chaos engineering practices teams are able to practice and automate 
-failure recovery. Chaos Mesh and Litmus Chaos are two CNCF tools in this space.
+混沌工程工具和实践对于实现应用程序的高可用性至关重要。分布式系统通常太复杂，任何一个工程师都无法完全理解，而且没有任何变更流程可以完全预测变更对环境的影响。通过引入有意的混沌工程实践，团队能够练习和自动化故障恢复。Chaos Mesh 和 Litmus Chaos 是这个领域的两个 CNCF 工具。
 
 </section>
 
-### Summary: Observability & Analysis
+### 总结：可观测性和分析
 
-As we've seen, the observability and analysis column is all about understanding the health of your 
-system and ensuring it stays operational even under tough conditions. Logging tools capture event 
-messages emitted by apps, monitoring watches logs and metrics, and tracing follows the path of 
-individual requests. When combined, these tools ideally provide a 360 degree view of what's going 
-on within your system. Chaos engineering is a little different. It provides a safe way to verify 
-the system can withstand unexpected events, ensuring it stays healthy.
+正如我们所见，可观测性和分析栏旨在理解系统的健康状况，并确保它即使在艰难的情况下也能保持运行。日志记录工具捕获应用程序发出的事件消息，监视器监视日志和指标，而跟踪则跟随单个请求的路径。当结合在一起时，这些工具理想情况下提供了系统内部情况的360度视图。混沌工程有些不同。它提供了一种安全的方法来验证系统是否能够承受意外事件，确保它保持健康。
 
-Next, we'll focus on cloud native platforms. Configuring tools across the landscape so they work 
-well together is no easy task. Platforms bundle them together, easing adoption.
+接下来，我们将重点关注云原生景观图的平台列。想要在整个环境中配置工具，并使它们良好地协同工作不是一件容易的事情。平台将它们捆绑在一起，从而简化了采用。
 
 <section data-category="Platform">
 
-As we've seen so far, each of the categories discussed solves a particular problem. Storage alone 
-does not provide all you need to manage your app. You'll need an orchestration tool, a container 
-runtime, service discovery, networking, an API gateway, etc. Platforms bundle different tools from 
-different layers together, solving a larger problem.
+## 平台
 
-There isn't anything inherently new in these platforms. Everything they do can be done by one of 
-the tools in these layers or the observability and analysis column. You could certainly build your 
-own platform and, in fact, many organizations do. However, configuring and fine-tuning the different 
-modules reliably and securely while ensuring that all technologies are always kept up to date 
-and vulnerabilities patched is no easy task—you'll need a dedicated team to build and maintain it. 
-If you don't have the necessary resources or know-how, your team is likely better off with a 
-platform. For some organizations, especially those with small engineering teams, platforms are the 
-only way to adopt a cloud native approach.
+截至目前为止，我们已经看到了每个讨论的类别都解决了特定的问题。仅存储并不能提供管理应用所需的所有信息。您需要编排工具、容器运行时、服务发现、网络、API网关等。平台从不同层面捆绑了不同的工具，解决了更大的问题。
 
-You'll probably notice, all platforms revolve around 
-[Kubernetes](https://github.com/cncf/glossary/blob/main/content/en/kubernetes.md). That's because 
-is at the core of the cloud native stack.
+这些平台本质上并没有什么新东西。它们所做的一切都可以由这些层的工具或可观察性和分析列中的工具之一完成。您当然可以构建自己的平台，实际上，很多组织都这样做。但是，可靠地配置和微调不同的模块并确保所有技术始终保持最新并修补漏洞并不容易，您需要一个专门的团队来构建和维护它。如果您没有必要的资源或知识，您的团队可能最好使用平台。对于一些组织，尤其是那些拥有小型工程团队的组织，平台是采用云原生方法的唯一途径。
+
+您可能会注意到，所有平台都围绕 [Kubernetes](https://github.com/cncf/glossary/blob/main/content/en/kubernetes.md) 展开。这是因为它是云原生技术栈的核心。
 
 </section>
 
 <section data-subcategory="Certified Kubernetes - Distribution">
 
+### 认证的 Kubernetes 分发
+
 #### 它是什么
 
-A distribution, or distro, is when a vendor takes core Kubernetes — that's the unmodified, open 
-source code (although some modify it) — and packages it for redistribution. Usually this entails 
-finding and validating the Kubernetes software and providing a mechanism to handle cluster 
-installation and upgrades. Many Kubernetes distributions include other proprietary or open source 
-applications.
+分发或者说 distro，指的是供应商使用核心 Kubernetes（它是未修改的开源代码，尽管有些人对它进行了修改），并将它打包以便重新分发。通常会包括查找和验证 Kubernetes 软件以及提供一种机制来处理集群的安装和升级。许多 Kubernetes 分发包括其他专有或开源应用程序。
 
 #### What it addresses
 
-[Open source Kubernetes](https://github.com/kubernetes/kubernetes) doesn’t specify a particular 
-installation tool and leaves many setup configuration choices to the user. Additionally, there is 
-limited support for issues as they arise through community resources like 
-[Community Forums](https://discuss.kubernetes.io/), 
-[StackOverflow](https://stackoverflow.com/questions/tagged/kubernetes), or 
-[Slack](https://slack.k8s.io/).
+[开源 Kubernetes](https://github.com/kubernetes/kubernetes) 并没有指定特定的安装工具，并且将许多设置配置选择留给用户。此外，通过社区资源如[社区论坛]](https://discuss.kubernetes.io/)，[StackOverflow](https://stackoverflow.com/questions/tagged/kubernetes) 或 [Slack]](https://slack.k8s.io/) 提供的支持有限。
 
-While using Kubernetes has become easier over time, it can be challenging to find and use the open 
-source installers. Users need to understand what versions to use, where to get them, and if a 
-particular component is compatible with another. They also need to decide what software will be 
-deployed to their clusters and what settings to use to ensure their platforms are secure, stable, 
-and efficient. All this requires deep Kubernetes expertise that may not be readily available 
-in-house.
+虽然随着时间的推移，使用 Kubernetes 变得越来越容易，但是找到并使用开源安装程序仍然具有挑战性。用户需要了解应该使用哪些版本、从哪里获取它们以及某个组件是否与另一个组件兼容。他们还需要决定哪些软件将部署到他们的集群中以及使用哪些设置来确保他们的平台安全、稳定和高效。所有这些都需要深入的 Kubernetes 专业知识，这种知识可能在内部可能不容易获得。
 
 #### 它如何帮助（解决问题）
 
-Kubernetes distributions provide a trusted and reliable way to install Kubernetes and provide 
-opinionated defaults that create a better and more secure operating environment. A Kubernetes 
-distribution gives vendors and projects the control and predictability they need to provide support 
-for a customer as they go through the lifecycle of deploying, maintaining, and upgrading their 
-Kubernetes clusters.
+Kubernetes 发行版提供了一种可信赖和可靠的安装 Kubernetes 的方式，并提供了具有建议性的默认设置，从而创建了更好且更安全的操作环境。 Kubernetes发行版为供应商和项目提供了控制和可预测性，以便为客户在部署、维护和升级Kubernetes集群的生命周期中提供支持。
 
-That predictability enables distribution providers to support users when they have production 
-issues. Distributions also often provide a tested and supported upgrade path that allows users 
-to keep their Kubernetes clusters up to date. Additionally, distributions often provide software 
-to deploy on top of Kubernetes that makes it easier to use.
+这种可预测性使得发行版提供商能够在生产问题出现时支持用户。发行版通常还提供经过测试和支持的升级路径，使用户能够使其Kubernetes集群保持最新。此外，发行版通常提供在Kubernetes之上部署软件，以使其更易于使用。
 
-Distributions significantly ease and speed up Kubernetes adoption. Since the expertise needed to 
-configure and fine-tune the clusters is coded into the platform, organizations can get up and 
-running with cloud native tools without having to hire additional engineers with specialized 
-expertise.
+发行版大大简化并加快了Kubernetes的采用。由于平台中编写了配置和微调集群所需的专业知识，因此组织可以使用云本地工具快速启动并运行，而无需再雇用具有专业知识的其他工程师。
 
 #### Technical 101
 
-If you've installed Kubernetes, you’ve likely used something like kubeadm to get your cluster up 
-and running. Even then, you probably had to decide on a CNI, install, and configure it. Then, you 
-might have added some storage classes, a tool to handle log messages, maybe an ingress controller, 
-and the list goes on. A Kubernetes distribution will automate some or all of that setup. It will 
-also ship with configuration settings based on its own interpretation of best practice or an 
-intelligent default. Additionally, most distributions will come with some extensions or add-ons 
-bundled and tested to ensure you can get going with your new cluster as quickly as possible.
+如果您已经安装了 Kubernetes，您可能使用了像 kubeadm 这样的工具来启动您的集群。即使在那时，您可能仍需要决定使用哪种 CNI、安装和配置它。然后，您可能会添加一些存储类、处理日志消息的工具，也许还有一个入口控制器，等等。Kubernetes 发行版将自动化部分或全部设置。它还将基于其自己的最佳实践解释或智能默认设置提供配置设置。此外，大多数发行版都将捆绑和测试一些扩展或附加组件，以确保您可以尽快启动新的集群。
 
-There are a lot of options in this category. [k3s](https://k3s.io/) is the only CNCF project in 
-this category. There are a lot of great open source and commercial options available. We encourage 
-you to think carefully about your needs when you begin evaluating distributions.
+此类别中有很多选择。[k3s](https://k3s.io/) 是此类别中唯一的 CNCF 项目。有许多出色的开源和商业选择可供选择。我们鼓励您在开始评估发行版时仔细考虑您的需求。
 
 </section>
 
 <section data-subcategory="Certified Kubernetes - Hosted"
          data-buzzwords="Hosted">
 
+### 认证的 Kubernetes - 托管
+
 #### 它是什么
 
-Hosted Kubernetes is a service offered by infrastructure providers like AWS, Digital Ocean, Azure, 
-and Google, allowing customers to spin up a Kubernetes cluster on-demand. The cloud provider 
-takes responsibility for managing part of the Kubernetes cluster, usually called the control plane. 
-They are similar to distributions but managed by the cloud provider on their infrastructure.
+托管 Kubernetes 是由基础设施提供商（如 AWS、Digital Ocean、Azure 和 Google）提供的一种服务，允许客户按需启动 Kubernetes 集群。云提供商负责管理 Kubernetes 集群的一部分，通常称为控制平面。它们类似于发行版，但由云提供商在其基础设施上进行管理。
 
 #### 它解决什么问题
 
-Hosted Kubernetes allows teams to get started with Kubernetes without knowing or doing anything 
-beyond setting up an account with a cloud vendor. It solves four of the five Ws of getting started 
-with Kubernetes. Who (manages it): your cloud provider; what: their hosted Kubernetes offering; 
-when: now; and where: on the cloud providers infrastructure. The why is up to you.
+托管 Kubernetes 允许团队在不知道或不做任何事情的情况下开始使用 Kubernetes，只需设置与云供应商的帐户即可解决“五 W 中的四个 W”。（Who）谁（管理它）：您的云提供商；（What）什么：他们的托管 Kubernetes 提供；（When）何时：现在；以及（Where）何地：在云提供商的基础设施上。至于（Why）为什么，取决于您。
 
 #### 它如何帮助（解决问题）
 
-Since the provider takes care of all management details, hosted Kubernetes is the easiest way to 
-get started with cloud native. All users have to do is develop their apps and deploy them on the 
-hosted Kubernetes services — it's incredibly convenient. Hosted Kubernetes allows users to spin up 
-a cluster and get started right away (with the exception of AWS' EKS which also requires users to 
-take some additional steps to prepare their clusters) while taking some responsibility for the 
-cluster availability. It’s worth noting that with the extra convenience of these services comes 
-some reduced flexibility. The offering is bound to the cloud provider, and Kubernetes users don’t 
-have access to the control plane.
+由于提供商负责所有管理细节，托管 Kubernetes 是开始使用云原生的最简单方法。所有用户需要做的就是开发其应用程序并将其部署到托管 Kubernetes 服务上 - 非常方便。托管 Kubernetes 允许用户立即启动集群并开始使用（除了 AWS 的 EKS 需要用户采取一些额外步骤来准备其集群），同时对集群的可用性负责。值得注意的是，这些服务的额外便利性也带来了一些降低的灵活性。该提供的服务受云提供商的限制，Kubernetes 用户无法访问控制平面。
 
 #### Technical 101
 
-Hosted Kubernetes are on-demand Kubernetes clusters provided by a vendor, usually an infrastructure 
-hosting provider. The vendor takes responsibility for provisioning the cluster and managing the 
-Kubernetes control plane. Again, the notable exception is EKS, where individual node provisioning 
-is left up to the client.
+托管 Kubernetes 是由供应商提供的按需 Kubernetes 集群，通常是基础架构托管提供商。供应商负责提供群集并管理 Kubernetes 控制平面。再次强调，显著的例外是 EKS，其中单个节点的配置由客户自行处理。
 
-Hosted Kubernetes allows an organization to quickly provision new clusters and reduce their 
-operational risk by outsourcing infrastructure component management to another organization. The 
-main trade-offs are that you’ll likely be charged for the control plane management and that you'll 
-be limited in what you can do. Managed clusters provide stricter limits on configuring your 
-Kubernetes cluster than DIY Kubernetes clusters.
+托管 Kubernetes 允许组织快速创建新的群集，并通过外包基础架构组件管理来降低其操作风险。主要的权衡是您可能会被收取控制平面管理费用，并且您的操作会受到限制。托管群集提供比 DIY Kubernetes 群集更严格的限制，以配置您的 Kubernetes 群集。
 
 </section>
 
 <section data-subcategory="Certified Kubernetes - Installer"
          data-buzzwords="Installer">
 
+### 认证的 Kubernetes - 安装程序
+
 #### 它是什么
 
-Kubernetes installers help install Kubernetes on a machine. They automate the Kubernetes 
-installation and configuration process and may even help with upgrades. Kubernetes installers 
-are often coupled with or used by Kubernetes distributions or hosted Kubernetes offerings.
+Kubernetes 安装程序有助于在机器上安装 Kubernetes。它们自动化 Kubernetes 的安装和配置过程，甚至可能有助于升级。Kubernetes 安装程序通常与 Kubernetes 发行版或托管 Kubernetes 提供的服务相结合使用。
 
 #### 它解决什么问题  
 
-Similar to Kubernetes distributions, Kubernetes installers simplify getting started with 
-Kubernetes. Open source Kubernetes relies on installers like kubeadm which, as of this writing, 
-is part of the Certified Kubernetes Administrator certification exam to get Kubernetes clusters 
-up and running.
+与 Kubernetes 发行版类似，Kubernetes 安装程序简化了 Kubernetes 的入门。开源 Kubernetes 依赖于像 kubeadm 这样的安装程序，截至本文撰写时，它是认证 Kubernetes 管理员认证考试的一部分，用于启动 Kubernetes 集群。
 
 #### 它如何帮助（解决问题）
 
-Kubernetes installers ease the Kubernetes installation process. Like distributions, they provide a 
-vetted source for the source code and version. They also often ship with opinionated Kubernetes 
-environment configurations. Kubernetes installers like [kind](https://kind.sigs.k8s.io/) 
-(Kubernetes in Docker) allow you to get a Kubernetes cluster with a single command.
+Kubernetes 安装程序简化了 Kubernetes 的安装过程。与发行版一样，它们为源代码和版本提供了一个经过验证的源。它们通常也带有具有观点的 Kubernetes 环境配置。像 [kind](https://kind.sigs.k8s.io/) （Docker 中的 Kubernetes）这样的 Kubernetes 安装程序允许你通过单个命令获得 Kubernetes 集群。
 
 #### Technical 101
 
-Whether you’re installing Kubernetes locally on Docker, spinning up and provisioning new virtual 
-machines, or preparing new physical servers, you’re going to need a tool to handle all the 
-preparation of various Kubernetes components (unless you’re looking to do it the 
-[hard way](https://github.com/kelseyhightower/kubernetes-the-hard-way)).
+无论您是在 Docker 上本地安装 Kubernetes，还是在准备新的虚拟机或物理服务器时，您都需要一个工具来处理各种 Kubernetes 组件的准备工作（除非您想用[困难的方式](https://github.com/kelseyhightower/kubernetes-the-hard-way)来做）。
 
-Kubernetes installers simplify that process. Some handle spinning up nodes and others merely 
-configure nodes you’ve already provisioned. They all offer various levels of automation and each 
-suits different use cases. When getting started with an installer, start by understanding your 
-needs, then pick an installer that addresses them. At the time of this writing, kubeadm is 
-considered so fundamental to the Kubernetes ecosystem that it’s included as part of the CKA, 
-certified Kubernetes administrator exam. Minikube, kind, kops, and kubespray are all CNCF-owned 
-Kubernetes installer projects.
-
+Kubernetes 安装程序简化了这个过程。有些程序处理节点的启动和配置，而其他程序仅配置您已经预配的节点。它们都提供各种级别的自动化，并适用于不同的用例。在开始使用安装程序时，首先要了解您的需求，然后选择一个适合您需求的安装程序。在撰写本文时，kubeadm 被认为是 Kubernetes 生态系统中非常基本的，因此它被包括在 CKA 认证 Kubernetes 管理员考试的一部分中。Minikube、kind、kops 和 kubespray 都是 CNCF 拥有的 Kubernetes 安装程序项目。
 </section>
 
 <section data-subcategory="PaaS/Container Service"
          data-buzzwords="">
 
+### PaaS/容器服务
+
 #### 它是什么
 
-A Platform-as-a-Service, or PaaS, is an environment that allows users to run applications 
-without necessarily concerning themselves with the details of the underlying compute resources. 
-PaaS and container services in this category are mechanisms to either host a PaaS for developers 
-or host services they can use.
+平台即服务（PaaS）是一种环境，允许用户运行应用程序，而不必关心底层计算资源的细节。此类PaaS和容器服务是为开发人员托管PaaS或托管他们可以使用的服务的机制。
 
 #### 它解决什么问题  
 
-We’ve talked a lot about the tools and technologies around cloud native. A PaaS attempts to 
-connect many of the technologies found in this landscape in a way that provides direct value 
-to developers. It answers the following questions: how will I run applications in various 
-environments? And, once running, how will my team and users interact with them?
+我们已经谈论了很多关于云原生的工具和技术。 PaaS试图以一种将在此景观中找到的许多技术以提供直接价值给开发人员的方式进行连接。它回答了以下问题：我将如何在各种环境中运行应用程序？一旦运行，我的团队和用户将如何与它们交互？
 
 #### 它如何帮助（解决问题）
 
-PaaS provides opinions and choices around how to piece together the various open and closed 
-source tools needed to run applications. Many offerings include tools that handle PaaS installation 
-and upgrades and the mechanisms to convert application code into a running application. 
-Additionally, PaaS handles the runtime needs of application instances, including on-demand 
-scaling of individual components and visibility into the performance and log messages of 
-individual apps.
+PaaS提供有关如何拼凑运行应用程序所需的各种开源和闭源工具的意见和选择。许多提供包括处理PaaS安装和升级以及将应用程序代码转换为运行应用程序的机制的工具。此外，PaaS处理应用程序实例的运行时需求，包括单个组件的按需扩展以及对单个应用程序的性能和日志消息的可见性。
 
 #### Technical 101
 
-Organizations are adopting cloud native technologies to achieve specific business or 
-organizational objectives. A PaaS provides a quicker path to value than building a custom 
-application platform. Tools like Cloud Foundry Application Runtime help organizations get up 
-and running with new applications quickly. They excel at providing the tools needed to 
-run [12 factor](https://12factor.net/) or cloud native applications.
+组织采用云原生技术以实现特定的业务或组织目标。PaaS 提供了比构建定制应用程序平台更快的价值路径。像 Cloud Foundry 应用程序运行时这样的工具可以帮助组织快速启动新应用程序。它们擅长提供运行[12 factor](https://12factor.net/) 或云本地应用程序所需的工具。
 
-Any PaaS comes with its own set of trade-offs and restrictions. Most only work with a subset of 
-languages or application types and the opinions and decisions baked into these platforms may or 
-may not be a good fit for your needs. Stateless applications tend to do very well in a PaaS but 
-stateful applications like databases usually don’t. There are currently no CNCF projects in this 
-space but most of the offerings are open source and Cloud Foundry is managed by the Cloud Foundry 
-Foundation.
+任何 PaaS 都有其自己的一套权衡和限制。大多数仅适用于某些语言或应用程序类型，并且这些平台中内置的观点和决策可能适合或不适合您的需求。无状态应用程序在 PaaS 中表现得非常好，但像数据库这样的有状态应用程序通常不行。目前在此领域中没有 CNCF 项目，但大多数提供的服务都是开源的，Cloud Foundry 由 Cloud Foundry 基金会管理。
 
 </section>
 
-### Summary: Platform
+### 总结：平台
 
-As we've seen there are multiple tools that help ease Kubernetes adoption. From Kubernetes 
-distributions and hosted Kubernetes to more barebones installers or PaaS, they all take various 
-installation and configuration burdens and pre-package them for you. Each solution comes with its 
-own "flavor." Vendor opinions about what's important and appropriate are built into the solution.
+正如我们所看到的，有多种工具可以帮助简化 Kubernetes 的采用。从 Kubernetes 发行版和托管Kubernetes到更基本的安装程序或 PaaS ，它们都采用了各种安装和配置负担，并为您预先打包。每种解决方案都有其自己的“风味”。供应商对于什么是重要和适当的观点已经内置到解决方案中。
 
-Before adopting any of these, you'll need to do some research to identify the best solution for 
-your particular use case. Will you likely encounter advanced Kubernetes scenarios where you'll need 
-control over the control plane? If so, hosted solutions may not be a good fit. Do you have a small 
-team that manages "standard" workloads and needs to offload as many operational tasks as possible? 
-There are multiple aspects to consider. While there is no single best tool for all use cases, 
-there certainly will be an optimal tool for your needs. 
+在采用任何这些解决方案之前，您需要进行一些研究，以确定最适合您特定用例的解决方案。您是否可能会遇到需要控制控制平面的高级 Kubernetes 场景？如果是这样，托管解决方案可能不适合。您是否有一个小团队管理“标准”工作负载，需要尽可能卸载尽可能多的操作任务？有多个方面需要考虑。虽然并不存在适用于所有用例的单一最佳工具，但肯定会有最适合您需求的最佳工具。
 
-## Summary: Cloud Native Landscape
+## 总结：云原生景观图
 
-Now that we've broken the CNCF Cloud Native Landscape down and discussed it layer by layer, 
-category by category, it probably feels less overwhelming. There is a logical structure to it and, 
-once you understand it, navigating the landscape becomes a lot easier. 
+现在我们已经将 CNCF 云原生景观分层并逐层、逐类别地进行了讨论，这样理解起来就不那么压抑了。一旦你理解了其逻辑结构，畅游这个景观就会更加容易。
 
-The layers of the CNCF Landscape build on each other. First, there is the **provisioning** layer 
-with the tools needed to lay the infrastructure foundation. Next is the **runtime** layer where 
-everything revolves around containers and what they need to run in a cloud native environment. 
-The **orchestration and management** layer contains the tools to orchestrate and manage your 
-containers and applications — in other words, the tools needed to create the platform on which 
-applications are built. The **application and definition** layer is concerned with the tooling 
-needed to enable applications to store and send data as well as with the ways we build and 
-deploy our applications. 
+CNCF 景观的层次结构是相互依赖的。首先是**配置**层，它包含了构建基础设施所需的工具。接下来是**运行时**层，其中一切都围绕容器展开，以及在云原生环境中运行所需的工具。**编排和管理**层包含编排和管理容器和应用程序所需的工具，换句话说，是创建应用程序的平台所需的工具。**应用程序定义**层涉及到存储和发送数据的应用程序所需的工具，以及构建和部署应用程序的方式。
 
-Next to the layers, there are two columns. The **observability and analysis** column includes 
-tools that monitor applications and flag when something is wrong. Since all layers have to be 
-monitored, this category runs across all of them. And finally, there are **platforms**. Platforms 
-don't provide new functionality, instead, they bundle multiple tools across the different layers 
-together, configuring and fine-tuning them so they are ready to be used. This eases the adoption of 
-cloud native technologies and may even be the only way organizations are able to leverage them. 
+在讲解完两层后，下面是两列。**可观测性和分析**列包括监视应用程序并在出现问题时标记的工具。由于所有层都必须进行监视，因此此类别跨越所有层。最后，有**平台**列。平台不提供新功能，而是将不同层中的多个工具捆绑在一起，配置和微调它们，使其准备好使用。这简化了云原生技术的采用，甚至可能是组织能够利用它们的唯一方式。
 
-This concludes the CNCF Landscape guide. We hope you enjoyed the read and that we were able to 
-bring a little more clarity to the landscape.
+这就是CNCF景观指南的全部内容。我们希望您阅读愉快，使得景观图看起来更加清晰。
 
-> ##### NOTE
+> ##### 注意事项
 > 
-> The cloud native space evolves quickly. If you see anything that's outdated, please submit a PR 
-> so we can update it. We want this to be a living document and appreciate your contribution.
+> 云原生领域发展迅速。如果您发现任何过时的内容，请提交PR以便我们更新。我们希望这是一份活着的文档，感谢您的贡献。
