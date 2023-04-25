@@ -46,312 +46,205 @@
 
 <section data-subcategory="Automation & Configuration" 
          data-buzzwords="Infrastructure-as-Code (IaC), Automation, Declarative Configuration">
+
 ### 自动化与配置 (Automation and Configuration)
 
 #### 它是什么
 
-Automation and configuration tools speed up the creation and configuration of compute
-resources (virtual machines, networks, firewall rules, load balancers, etc.). Tools in
-this category either handle different parts of the provisioning process or try to control
-everything end-to-end. Most provide the ability to integrate with other projects and
-products in the space.
+自动化和配置工具可以加快计算资源（虚拟机、网络、防火墙规则、负载均衡器等）的创建和配置速度。此类工具可以处理供应过程的不同部分，或者尝试控制整个过程。大多数提供与该领域中其他项目和产品集成的能力。
 
 #### 它解决什么问题
 
-Traditionally, IT processes relied on lengthy and labor intensive manual release cycles,
-typically between three to six months. Those cycles came with lots of human processes and
-controls that slowed down changes to production environments. These slow release cycles
-and static environments aren’t compatible with cloud native development. To deliver on
-rapid development cycles, infrastructure must be provisioned dynamically and without
-human intervention.
+传统上，IT流程依赖于漫长而费力的手动发布周期，通常在三到六个月之间。这些周期伴随着许多人类过程和控制，使得生产环境的变化变得缓慢。这些缓慢的发布周期和静态环境与云原生开发不兼容。为了实现快速的开发周期，基础架构必须动态且没有人为干预地进行配置。
 
 #### 它如何帮助（解决问题）
 
-Tools of this category allow engineers to build computing environments without human
-intervention. By codifying the environment setup it becomes reproducible with the click
-of a button. While manual setup is error prone, once codified, environment creation
-matches the exact desired state -- a huge advantage.
+这类工具允许工程师在没有人为干预的情况下构建计算环境。通过对环境设置进行编码，它变得可重现，只需点击一个按钮。虽然手动设置容易出错，但一旦编码，环境创建就可以匹配精确的期望状态-这是一个巨大的优势。
 
-While tools may take different approaches, they all aim at reducing the required work
-to provision resources through automation.
+虽然工具可能采取不同的方法，但它们都旨在通过自动化减少所需的资源配置工作。
 
 #### Technical 101
 
-As we move from old-style human-driven provisioning to a new on-demand scaling model
-driven by the cloud, the patterns and tools we used before no longer meet our needs.
-Most organizations can’t afford a large 24x7 staff to create, configure, and manage
-servers. Automated tools like Terraform reduce the level of effort required to scale
-tens of servers and networks with hundreds of firewall rules. Tools like Puppet, Chef,
-and Ansible provision and/or configure these new servers and applications
-programmatically as they are spun up and allow them to be consumed by developers.
+随着我们从旧的人力驱动的配置向由云驱动的新的按需扩展模型迁移，我们之前使用的模式和工具已不再满足我们的需求。大多数组织无法承担一个大型的 7x24 员工团队来创建、配置和管理服务器。像 Terraform 这样的自动化工具可以减少扩展数十个服务器和拥有数百个防火墙规则的网络所需的工作量。像 Puppet、Chef 和 Ansible 这样的工具可以按编程方式配置这些新服务器和应用程序，在它们启动时允许开发人员使用它们。
 
-Some tools interact directly with the infrastructure APIs provided by platforms like
-AWS or vSphere, while others focus on configuring the individual machines to make them
-part of a Kubernetes cluster. Many, like Chef and Terraform, can interoperate to provision
-and configure the environment. Others, like OpenStack, exist to provide an
-Infrastructure-as-a-Service (IaaS) environment that other tools could consume.
-Fundamentally, you'll need one or more tools in this space as part of laying down the
-computing environment, CPU, memory, storage, and networking, for your Kubernetes clusters.
-You'll also need a subset of these to create and manage the Kubernetes clusters
-themselves.
+一些工具直接与 AWS 或 vSphere 等平台提供的基础设施 API 进行交互，而其他工具则专注于配置单个机器，使它们成为 Kubernetes 集群的一部分。许多工具，如 Chef 和 Terraform，可以互操作以配置和管理环境。还有其他工具，如 OpenStack，旨在于提供其他工具可以使用的基础设施即服务（Infrastructure-as-a-Service IaaS）环境。从根本上说，在铺设计算环境、CPU、内存、存储和网络的基础上，您将需要一个或多个工具来创建和管理Kubernetes集群。您还需要这些工具的子集来创建和管理Kubernetes集群本身。
 
-There are now over 5 CNCF projects in this space, more if you count projects like Cluster
-API which don’t appear on the landscape. There is also a very robust set of other open
-source and vendor provided tools.
+现在，这个领域已经有5个CNCF项目，如果算上Cluster API这样的项目，这还会更多。还有其他开源和供应商提供的非常强大的工具。
 
 </section>
 
 <section data-subcategory="Container Registry" 
          data-buzzwords="Container, OCI Image, Registry">
 
-#### What it is
+### 容器注册表
 
-Before diving into container registries, we need to define three tightly related concepts:
 
-* **Container** is "a running process with resource and capability constraints managed by a
-  computer’s operating system"
-  ([Cloud Native Glossary](https://github.com/cncf/glossary/blob/main/content/en/container.md)).
-* **Image** is a set of archive files needed to run containers and its process. You could
-  see it as a form of template on which you can create an unlimited number of containers.
-* **Repository**, or just repo, is a space to store images.
+#### 它是什么
 
-And **container registries** are specialized web applications that categorize and store repositories.
+在深入了解容器注册表之前，我们需要定义三个紧密相关的概念：
 
-Let's recap real quick: images contain the information needed to execute a program
-(within a container) and are stored in repositories which in turn are categorized and
-grouped in registries. Tools that build, run, and manage containers need access to those
-images. Access is provided by referencing the registry (the path to access the image).
+* **容器**是“由计算机操作系统管理的具有资源和能力约束的运行进程”（参见 [云原生词汇表](https://github.com/cncf/glossary/blob/main/content/en/container.md)）。
+* **镜像**是一组归档文件，用于运行容器及其进程。您可以将其视为模板，可在其上创建无限数量的容器。
+* **仓库**或称为 repo ，是存储镜像的空间。
 
-#### Problem it addresses
+而**容器注册表**是专门的 Web 应用程序，可分类和存储仓库。
 
-Cloud native applications are packaged and run as containers. Container registries store and provide 
-the container images needed to run these apps.
+让我们快速回顾一下：镜像包含执行程序所需的信息（在容器中），并存储在仓库中，这些仓库又分为类别和组别，并存储在注册表中。构建、运行和管理容器的工具需要访问这些镜像。访问是通过引用注册表（访问镜像的路径）提供的。
 
-#### How it helps
-By centrally storing all container images in one place, they are easily accessible for any developer 
-working on that app.
+#### 它解决什么问题
+云原生应用程序被打包并作为容器运行。容器注册表存储并提供运行这些应用程序所需的容器镜像
+
+#### 它如何帮助（解决问题）
+通过集中存储所有容器镜像到一个地方，任何开发此应用程序的开发人员都可以轻松访问。
 
 #### Technical 101
-Container registries either store and distribute images or enhance an existing registry in some 
-way. Fundamentally, a registry is a web API that allows container runtimes to store and retrieve 
-images. Many provide interfaces to allow container scanning or signing tools to enhance the 
-security of the images they store. Some specialize in distributing or duplicating images in a 
-particularly efficient manner. Any environment using containers will need to use one or more 
-registries.
+容器注册表存储和分发镜像或以某种方式增强现有注册表。根本上讲，注册表是允许容器运行时存储和检索镜像的 Web API。许多提供接口，允许容器扫描或签名工具增强其存储的镜像的安全性。有些专门于以特别高效的方式分发或复制镜像。任何使用容器的环境都需要使用一个或多个注册表。
 
-Tools in this space provide integrations to scan, sign, and inspect the images they store. 
-Dragonfly and Harbor are CNCF projects and Harbor recently gained the distinction of 
-[being the first](https://goharbor.io/blog/harbor-2.0/) OCI compliant registry. Each major cloud 
-provider provides its own hosted registry and many other registries can be deployed standalone or 
-directly into your Kubernetes cluster via tools like Helm.
+这个领域的工具提供了集成，可以扫描、签名和检查它们存储的镜像。Dragonfly 和 Harbor 是 CNCF 项目，Harbor 最近获得了[第一个](https://goharbor.io/blog/harbor-2.0/)支持 OCI 的注册表的荣誉。每个主要的云提供商都提供自己的托管注册表，许多其他注册表可以独立部署，或通过像 Helm 这样的工具直接部署到您的 Kubernetes 集群中。
 
 </section>
 
 <section data-subcategory="Security & Compliance" 
          data-buzzwords="Image scanning, Image signing, Policy enforcement, Audit, Certificate Management">
 
-#### What it is
+### 安全和合规性
 
-Cloud native applications are designed to be rapidly iterated on. Think of your mobile phone’s 
-continuous flow of app updates — they evolve everyday, presumably getting better. In order to 
-release code on a regular cadence you must ensure that the code and operating environment are 
-secure and only accessed by authorized engineers. Tools and projects in this section provide 
-some of the abilities needed to build and run modern applications securely.
+#### 它是什么
 
-#### Problem it addresses
+云原生应用程序旨在快速迭代。想想你手机上持续不断的应用更新——它们每天都在发展，假定变得更好了。为了按照一定节奏发布代码，您必须确保代码和操作环境是安全的，并且只能由授权工程师访问。本节中的工具和项目提供了构建和运行现代应用程序所需的一些能力。
 
-Security and compliance tools help harden, monitor, and enforce platform and application security. 
-From containers to Kubernetes environments, these tools allow you to set policy (for compliance), 
-get insights into existing vulnerabilities, catch misconfigurations, and harden the containers and 
-clusters.
+#### 它解决什么问题
 
-#### How it helps
+安全和合规性工具可帮助加固、监控和执行平台和应用程序的安全性。从容器到 Kubernetes 环境，这些工具允许您设置策略（用于合规性）、获取现有漏洞的洞察力、捕获错误配置并加固容器和集群。
 
-To run containers securely, containers must be scanned for known vulnerabilities and signed to 
-ensure they haven’t been tampered with. Kubernetes has extremely permissive access control settings 
-by default that are unsuitable for production use. The result: Kubernetes clusters are an attractive 
-target for anyone looking to attack your systems. The tools and projects in this space help harden 
-the cluster and detect when the system is behaving abnormally.
+#### 它如何帮助（解决问题）
 
-#### Technical Intro
+要安全地运行容器，必须扫描容器中已知的漏洞并签名以确保它们没有被篡改。默认情况下，Kubernetes 具有极其宽松的访问控制设置，不适合生产使用。结果：Kubernetes 集群成为任何试图攻击您系统的人的一个有吸引力的目标。这个领域的工具和项目有助于加固集群并检测系统异常行为。
 
-* Audit and compliance
-* Path to production:
-  * Code scanning
-  * Vulnerability scanning
-  * Image signing
-* Policy creation and enforcement
-* Network layer security
+#### Technical 101
 
-Some of these tools are rarely used directly. Trivy, Claire, and Notary, for example, are leveraged 
-by registries or other scanning tools. Others represent key hardening components of a modern 
-application platform. Examples include Falco or Open Policy Agent (OPA).
+* 审计和合规性
+* 生产路径：
+  * 代码扫描
+  * 漏洞扫描
+  * 映像签名
+* 策略创建和执行
+* 网络层安全
+其中一些工具很少直接使用。例如，Trivy、Claire 和 Notary 是由注册表或其他扫描工具利用的。其他则代表现代应用平台的关键加固组件。例如 Falco 或 Open Policy Agent (OPA)。
 
-You'll find a number of mature vendors providing solutions in this space, as well as startups 
-founded explicitly to bring Kubernetes native frameworks to market. At the time of this writing 
-Falco, Notary/TUF, and OPA are CNCF projects in this space.
+您会发现许多成熟的供应商提供此领域的解决方案以及专门创立的初创企业，旨在将 Kubernetes 原生框架引入市场。在撰写本文时，Falco、Notary/TUF 和 OPA 是 CNCF 项目中的一部分。
 
 </section>
 
 <section data-subcategory="Key Management" 
          data-buzzwords="AuthN and AuthZ, Identity, Access, Secrets">
 
-#### What it is
+### 密钥管理
 
-Before digging into key management, let's first define cryptographic keys. A key is a string of 
-characters used to encrypt or sign data. Like a physical key, it locks (encrypts) data so that 
-only someone with the right key can unlock (decrypt) it.
+#### 它是什么
 
-As applications and operations adapt to a new cloud native world, security tools are evolving to 
-meet new security needs. The tools and projects in this category cover everything from how to 
-securely store passwords and other secrets (sensitive data such as API keys, encryption keys, etc.) 
-to how to safely eliminate passwords and secrets from your microservices environment.
+在深入研究密钥管理之前，让我们先定义加密密钥。密钥是用于加密或签名数据的字符字符串。像物理钥匙一样，它给数据上锁（加密），以便只有具有正确密钥的人可以解锁（解密）。
 
-#### Problem it addresses
+随着应用程序和操作适应新的云原生世界，安全工具正在发展以满足新的安全需求。这个类别中的工具和项目涵盖了从如何安全地存储密码和其他秘密（敏感数据，如API密钥，加密密钥等）到如何安全地从您的微服务环境中消除密码和秘密的所有事情。
 
-Cloud native environments are highly dynamic, requiring on-demand secret distribution. That means 
-it has to be entirely programmatic (no humans in the loop) and automated.
+#### 它解决什么问题
 
-Additionally, applications need to know if a given request comes from a valid source 
-(authentication) and if that request has the right to do whatever it’s trying to do 
-(authorization). This is commonly referred to as AuthN and AuthZ.
+云原生环境高度动态，需要按需进行秘密分发。这意味着必须做到完全编程化（没有人在环节中）和完全自动化。
 
-#### How it helps
+此外，应用程序需要知道给定请求是否来自有效来源（身份验证），以及该请求是否有权执行其正在尝试执行的操作（授权）。 这通常称为 AuthN 和 AuthZ 。
 
-Each tool or project takes a different approach but they all provide a way to either securely 
-distribute secrets and keys or a service or specification related to authentication, authorization, 
-or both.
+#### 它如何帮助（解决问题）
+
+每个工具或项目采取不同的方法，但它们都提供一种方法，无论是安全分发秘密和密钥，还是与身份验证，授权或两者都有关的服务或规范。
 
 #### Technical 101
 
-Tools in this category can be grouped into two sets: 1) key generation, storage, management, and 
-rotation, and 2) single sign-on and identity management. Vault, for example, is a rather generic 
-key management tool allowing you to manage different types of keys. Keycloak, on the other hand, 
-is an identity broker which can be used to manage access keys for different services.
+该类别的工具可分为两类：（1）密钥生成、存储、管理和轮换，以及 （2）单点登录和身份管理。例如，Vault 是一个相当通用的密钥管理工具，可让您管理不同类型的密钥。另一类的例子，Keycloak 是一个身份代理，可用于管理不同服务的访问密钥。
 
 </section>
 
-### Summary: Provisioning
+### 总结：供应层
 
-As we've seen, the provisioning layer focuses on building the foundation of your cloud native 
-platforms and applications with tools handling everything from infrastructure provisioning to 
-container registries to security. Next, we'll discuss the runtime layer containing cloud native 
-storage, container runtime, and networking.
+正如我们所看到的，供应层的重点是使用工具构建云原生平台和应用程序的基础，这些工具处理从基础设施供应到容器注册表再到安全性的所有内容。接下来，我们将讨论包含云本地存储、容器运行时和网络的运行时层。
 
 <section data-category="Runtime">
 
-Now that we've established the foundation of a cloud native environment, we'll move one 
-infrastructure layer up and zoom into the runtime layer. It encompasses everything a container 
-needs to run in a cloud native environment. That includes the code used to start a container, 
-referred to as a container runtime; tools to make persistent storage available to containers; 
-and those that manage the container environment networks.
+## 运行时
 
-But note, these resources are not to be confused with the networking and storage work handled by 
-the provisioning layer discussed above. Those focused on getting the container platform running. 
-Tools in this category are used to start and stop containers, help them store data, and allow them 
-to talk to each other.
+现在我们已经建立了云原生环境的基础，我们将向上移动一层基础设施，并放大到运行时层。它包含容器在云原生环境中运行所需的一切。这包括用于启动容器的代码，称为容器运行时；使持久存储可用于容器的工具；以及管理容器环境网络的工具。
+
+但请注意，这些资源不应与上面讨论的供应层处理的网络和存储工作混淆。那些专注于使容器平台运行。这个类别中的工具用于启动和停止容器，帮助它们存储数据，并允许它们彼此交流。
 
 </section>
 
 <section data-subcategory="Cloud Native Storage"
          data-buzzwords="Persistent volume, CSI, Storage API, Backup and restore">
 
-### What it is
+### 云原生储存 
 
-Storage is where the persistent data of an app is stored, often referred to as a persistent volume. 
-To function reliably, applications need to have easy access to storage. Generally, when we say 
-persistent data, we mean storing things like databases, messages, or any other information we want 
-to ensure doesn’t disappear when an app gets restarted.
+#### 它是什么
 
-### Problem it addresses
+存储是应用程序持久数据存储的地方，通常称为持久卷。为了可靠运行，应用程序需要轻松访问存储。通常来说，当我们说持久数据时，我们指的是存储数据库、消息或任何其他要确保在应用程序重新启动时不会消失的信息。
 
-Cloud native architectures are fluid, flexible, and elastic, making persisting data between 
-restarts challenging. To scale up and down or self-heal, containerized apps are continuously 
-created and deleted, changing physical location over time. That's why cloud native storage must 
-be provided node-independently. To store data, though, you'll need hardware, a disk to be specific, 
-and disks, just like any other hardware, are infrastructure-bound — our first big challenge.
+#### 它解决什么问题
 
-Then there is the actual storage interface which can change significantly between datacenters 
-(in the old world, each infrastructure had their own storage solution with its own interface), 
-making portability really tough.
+云原生架构非常流动、灵活和弹性，这使得在重启之间持久化数据变得非常具有挑战性。为了进行扩展和自我修复，容器化应用程序不断地被创建和删除，随着时间推移而改变其物理位置。这就是为什么云原生存储必须提供独立于节点的功能。然而，要存储数据，您需要硬件，具体来说是一个磁盘，而磁盘就像任何其他硬件一样，都与基础设施绑定，这是我们面临的第一个重大挑战。
 
-And lastly, manual provisioning and autoscaling aren't compatible, so, to benefit from the 
-elasticity of the cloud, storage must be provisioned automatically.
+然后，实际的存储接口在数据中心之间可能会有很大的变化（在旧世界中，每个基础设施都有自己的存储解决方案和独特的接口），这使得可移植性非常困难。
 
-Cloud native storage is tailored to this new cloud native reality.
+最后，手动配置和自动扩展不兼容，因此，为了从云的弹性中受益，必须自动配置存储。
 
-### How it helps
+云原生存储是为这种新的云原生现实量身定制的。
 
-The tools in this category help either:
+#### 它如何帮助（解决问题）
 
-1. Provide cloud native storage options for containers,
-2. Standardize the interfaces between containers and storage providers, or
-3. Provide data protection through backup and restore operations.
+这个类别中的工具可以帮助：
 
-The former means storage that uses a cloud native compatible container storage interface 
-(tools in the second category) and which can be provisioned automatically, enabling autoscaling 
-and self-healing by eliminating the human bottleneck.
+1. 为容器提供云原生存储选项，
+2. 标准化容器和存储提供商之间的接口，或者
+3. 通过备份和恢复操作提供数据保护。
 
-### Technical 101
+前者意味着使用与云原生兼容的容器存储接口的存储（第二类工具），可以自动配置，通过消除人类瓶颈实现自动扩展和自我修复。
 
-Cloud native storage is largely made possible by the Container Storage Interface (CSI) which 
-provides a standard API for providing file and block storage to containers. There are a number 
-of tools in this category, both open source and vendor-provided, that leverage the CSI to provide 
-on-demand storage for containers.
+#### Technical 101
 
-Additionally, there are technologies aiming to solve other cloud native storage challenges. 
-Minio is a popular project that provides an S3-compatible API for object storage among other 
-things. Tools like Velero help simplify the process of backing up and restoring both the 
-Kubernetes clusters themselves as well as persistent data used by the applications.
+云原生存储主要得益于容器存储接口 (CSI)，该接口为容器提供提供文件和块存储的标准 API。在这一类别中有许多工具，包括开源和供应商提供的工具，它们利用 CSI 为容器提供按需存储。
+
+此外，还有一些技术旨在解决其他云原生存储难题。Minio 是一个流行的项目，它提供了 S3 兼容的对象存储 API 等功能。像 Velero 这样的工具有助于简化备份和恢复 Kubernetes 集群本身以及应用程序使用的持久数据的过程。
 
 </section>
 
 <section data-subcategory="Container Runtime"
          data-buzzwords="Container, MicroVM">
 
-### What it is
+### 容器运行时
 
-As discussed under container registry, a container is a set of compute constraints used to execute 
-(or launch) an application. Containerized apps believe they are running on their own dedicated 
-computer and are oblivious that they are sharing resources with other processes 
-(similar to virtual machines).
+#### 它是什么
 
-The container runtime is the software that executes containerized (or "constrained") applications. 
-Without the runtime, you only have the container image, the at-rest file specifying how the 
-containerized app should look like. The runtime will start an app within a container and provide 
-it with the needed resources.
+如在容器注册表下所讨论的，容器是一组用于执行（或启动）应用程序的计算约束。容器化的应用程序认为它们正在运行在自己专用的计算机上，并且不知道它们正在与其他进程共享资源（类似于虚拟机）。
 
-### Problem it addresses
+容器运行时是执行容器化（或“约束”）应用程序的软件。如果没有运行时，您只有容器映像，即静态文件，指定容器化的应用程序应该如何运行。运行时将在容器中启动应用程序并为其提供所需的资源。
 
-Container images (the files with the application specs) must be launched in a standardized, secure, 
-and isolated way. Standardized because you need standard operating rules no matter where they are 
-running. Secure, well, because you don't want anyone who shouldn't access it to do so. And isolated 
-because you don't want the app to affect or be affected by other apps (for instance, if a 
-co-located application crashes). Isolation basically functions as protection. Additionally, the 
-application needs to be provided resources, such as CPU, storage, and memory.
+#### 它解决什么问题
 
-### How it helps
+容器映像（应用程序规范的文件）必须以标准化、安全和隔离的方式启动。标准化是因为无论在哪里运行，都需要标准化的操作规则。安全，因为您不希望任何未经授权的人访问它。而隔离是因为您不希望应用程序受到其他应用程序的影响（例如如果共存的应用程序崩溃了）。隔离基本上起到保护作用。此外，还需要为应用程序提供资源，例如 CPU、存储和内存。
 
-The container runtime does all that. It launches apps in a standardized fashion across all 
-environments and sets security boundaries. The latter is where some of these tools differ. Runtimes 
-like CRI-O or gVisor have hardened their security boundaries. The runtime also sets resource limits 
-for the container. Without it, the app could consume resources as needed, potentially taking 
-resources away from other apps, so you always need to set limits.
+#### 它如何帮助（解决问题）
 
-### Technical 101
+容器运行时完成所有这些工作。它以标准化的方式在所有环境中启动应用程序，并设置安全边界。后者是一些工具的区别所在。像 CRI-O 或 gVisor 这样的运行时已经加强了其安全边界。运行时还为容器设置资源限制。如果没有它，应用程序可能会根据需要消耗资源，潜在地占用其他应用程序的资源，因此您始终需要设置限制。
 
-Not all tools in this category are created equal. Containerd (part of the famous Docker product) 
-and CRI-O are standard container runtime implementations. Then there are tools that expand the use 
-of containers to other technologies, such as Kata which allows you to run containers as VMs. Others 
-aim at solving a specific container-related problem such as gVisor which provides an additional 
-security layer between containers and the OS.
+#### Technical 101
+
+这个类别中不是所有的工具都是平等的。Containerd（著名的 Docker 产品的一部分）和 CRI-O 是标准容器运行时实现。然后有一些工具将容器的使用扩展到其他技术，例如 Kata，它允许您将容器作为VM运行。其他项目旨在解决特定的容器相关问题，例如 gVisor 在容器和操作系统之间提供了一个额外的安全层。
 
 </section>
 
 <section data-subcategory="Cloud Native Network"
          data-buzzwords="SDN, Network Overlay, CNI">
 
-### What it is
+### 云原生网络
+
+#### 它是什么
 
 Containers talk to each other and to the infrastructure layer through a cloud native network. 
 [Distributed applications](https://thenewstack.io/primer-distributed-systems-and-cloud-native-computing/) 
@@ -359,574 +252,339 @@ have multiple components that use the network for different purposes. Tools in t
 a virtual network on top of existing networks specifically for apps to communicate, referred to 
 as an **overlay network**.
 
-### Problem it addresses
+容器通过云原生网络相互通信和与基础架构层通信。 [分布式应用程序](https://thenewstack.io/primer-distributed-systems-and-cloud-native-computing/)  包含多个使用网络进行不同用途的组件。此类工具在现有网络的基础上创建一个虚拟网络，专门用于应用程序通信，称为**覆盖网络**。
 
-While it's common to refer to the code running in a container as an app, the reality is that most 
-containers hold only a small specific set of functionalities of a larger application. Modern 
-applications such as Netflix or Gmail are composed of a number of these smaller components each 
-running in its own container. To allow all these independent pieces to function as a cohesive 
-application, containers need to communicate with each other privately. Tools in this category 
-provide that private communication network.
+#### 它解决什么问题
 
-Data and messages flowing between containers may have sensitive or private data. Because cloud 
-native networking uses software for controlling, inspecting and modifying data flows, it is a lot 
-easier to manage, secure and isolate connections between containers. In some cases you may want to 
-extend your container networks and network policies such as firewall and access rules to allow an 
-app to connect to virtual machines or services running outside the container network. The 
-programmable and often declarative nature of cloud native networking makes this possible.
+虽然人们通常称在容器中运行的代码为应用程序，但事实上，大多数容器仅包含大型应用程序的一小部分特定功能。像 Netflix 或 Gmail 这样的现代应用程序由许多这些较小的组件组成，每个组件都在自己的容器中运行。为了使所有这些独立的部分作为一个协调的应用程序运行，容器需要私下相互通信。这类工具提供了私有通信网络。
 
-### How it helps
+在容器之间流动的数据和消息可能具有敏感或私密数据。由于云原生网络使用软件来控制、检查和修改数据流，从而让管理、安全和隔离容器之间的连接更容易。在某些情况下，您可能希望扩展容器网络和网络策略，如防火墙和访问规则，以允许应用程序连接到容器网络之外运行的虚拟机或服务。云原生网络的可编程性和通常声明性使这种扩展成为可能。
 
-Projects and products in this category use the Container Network Interface (CNI), a CNCF project, 
-to provide networking functionalities to containerized applications. Some tools, like Flannel, are 
-rather minimalist, providing bare bones connectivity to containers. Others, such as NSX-T provide a 
-full software-defined networking layer creating an isolated virtual network for every Kubernetes 
-namespace.
+#### 它如何帮助（解决问题）
 
-At a minimum, a container network needs to assign IP addresses to pods (that's where containerized 
-apps run in Kubernetes), allowing other processes to access it.
+该类别中的项目和产品使用容器网络接口（CNI），这是CNCF项目，为容器化应用程序提供网络功能。一些工具，如Flannel，相当简约，仅提供与容器的基本连接。其他工具，如 NSX-T，提供完整的软件定义网络层，为每个Kubernetes名称空间创建一个隔离的虚拟网络。
 
-### Technical 101
+至少，容器网络需要为Pod（即在Kubernetes中运行容器化应用程序的地方）分配IP地址，以允许其他进程访问它。
 
-The variety and innovation in this space is largely made possible by the CNI (similar to storage 
-and the Container Storage Interface mentioned above).The CNI standardizes the way network layers 
-provide functionalities to pods.  Selecting the right container network for your Kubernetes 
-environment is critical and you've got a number of tools to choose from. Weave Net, Antrea, Calico, 
-and Flannel all provide effective open source networking layers. Their functionalities vary widely 
-and your choice should be ultimately driven by your specific needs.
+#### Technical 101
 
-Numerous vendors support and extend Kubernetes networks with Software Defined Networking (SDN) 
-tools, providing additional insights into network traffic, enforcing network policies, and even 
-extending container networks and policies to your broader datacenter.
+这个领域的多样性和创新主要是由CNI（类似于上面提到的存储和容器存储接口）实现的。CNI 规范了网络层向pod提供功能的方式。选择适合你的 Kubernetes 环境的容器网络非常关键，你有许多工具可以选择。Weave Net、Antrea、Calico和 Flannel 都提供了有效的开源网络层。它们的功能差异很大，你的选择应该最终由你的特定需求驱动。
+
+许多供应商使用软件定义网络（SDN）工具支持和扩展 Kubernetes 网络，提供对网络流量的额外见解，执行网络策略，甚至将容器网络和策略延伸到你的更广泛的数据中心。
 
 </section>
 
-### Summary: Runtime
+### 总结：运行时
 
-This concludes our overview of the runtime layer which provides all the tools containers need to 
-run in a cloud native environment:
+这是我们对运行时层的概述，它为容器提供了在云原生环境中运行所需的所有工具：
 
-* Cloud native storage gives apps easy and fast access to data needed to run reliably
-* The container runtime which creates and starts containers executing application code
-* Cloud native networking provides connectivity for containerized apps to communicate.
+* 云原生存储为应用程序提供了易于快速访问所需数据以实现可靠运行的能力
+* 容器运行时创建并启动容器，执行应用程序代码
+* 云原生网络为容器化应用程序提供了通信的连接。
 
 <section data-category="Orchestration & Management">
 
-Now that we’ve covered both the provisioning and runtime layer we can now dive into orchestration 
-and management. Here you’ll find tooling to handle running and connecting your cloud native 
-applications. This section covers everything from Kubernetes itself, one of the key enablers of 
-cloud native development to the infrastructure layers responsible for inter app, and external 
-communication. Inherently scalable, cloud native apps rely on automation and resilience, enabled 
-by these tools.
+## 编排和管理
+
+现在，我们已经覆盖了供应和运行时层，可以深入研究编排和管理层。在这里，您将找到处理运行和连接云原生应用程序的工具。此部分涵盖了从 Kubernetes 本身到负责应用程序内部和外部通信的基础设施层的所有内容。云原生应用程序具有固有的可扩展性，依赖于这些工具提供的自动化和弹性。
 
 </section>
 
 <section data-subcategory="Scheduling & Orchestration"
          data-buzzwords="Cluster, Scheduler, Orchestration">
 
-### What it is
+### 编排和调度
 
-Orchestration and scheduling refer to running and managing 
-[containers](https://github.com/cncf/glossary/blob/main/content/en/container.md) across a cluster. 
-A cluster is a group of machines, physical or virtual, connected over a network (see cloud native 
-networking).
+#### 它是什么
 
-Container orchestrators (and schedulers) are somewhat similar to the operating system (OS) on your 
-laptop. The OS manages all your apps such as Microsoft 365, Slack and Zoom; executes them, and 
-schedules when each app gets to use your laptop's hardware resources like CPU, memory and  storage.
+编排和调度是指在集群中运行和管理[容器](https://github.com/cncf/glossary/blob/main/content/en/container.md)。集群是一组机器，可以是物理的或虚拟的，通过网络相连（参见云原生网络）。
 
-While running everything on a single machine is great, most applications today are a lot bigger 
-than one computer can possibly handle. Think Gmail or Netflix. These massive apps are distributed 
-across multiple machines forming a 
-[distributed application](https://thenewstack.io/primer-distributed-systems-and-cloud-native-computing/). 
-Most modern-day applications are built this way, requiring software that is able to manage all 
-components running across these different machines. In short, you need a "cluster OS." That's 
-where orchestration tools come in.
+容器编排器（和调度器）有些类似于您笔记本电脑上的操作系统（OS）。操作系统管理您所有的应用程序，如 Microsoft 365、Slack 和 Zoom；执行它们，并安排每个应用程序何时使用您笔记本电脑的硬件资源，如CPU、内存和存储器。
 
-You probably noticed that containers come up time and again. Their ability to run apps in many 
-different environments is key. Container orchestrators, in most cases, 
-[Kubernetes](https://kubernetes.io/), provide the ability to manage these containers. Containers 
-and Kubernetes are both central to cloud native architectures, which is why we hear so much about 
-them.
+虽然在单个计算机上运行所有内容非常好，但今天的大多数应用程序都比一个计算机能够处理的要大得多。想想 Gmail 或者是 Netflix。这些巨大的应用程序分布在多台机器上，形成[分布式应用](https://thenewstack.io/primer-distributed-systems-and-cloud-native-computing/)。大多数现代应用程序都是这样构建的，需要能够管理在这些不同机器上运行的所有组件的软件。简而言之，您需要一个“集群操作系统”。这就是编排工具发挥作用的地方。
 
-### Problem it addresses
+您可能已经注意到容器一次又一次地出现。它们在许多不同的环境中运行应用程序的能力是关键。在大多数情况下，容器编排器（Kubernetes）提供管理这些容器的能力。容器和 [Kubernetes](https://kubernetes.io/) 都是云原生架构的核心，这就是为什么我们经常听到它们的原因。
 
-As mentioned in the section ‘cloud native networking’, in cloud native architectures, applications 
-are broken down into small components, or services, each placed in a container. You may have heard 
-of them referred to as [microservices](https://github.com/cncf/glossary/blob/main/content/en/microservices-architecture.md).
-Instead of having one big app (often known as a ‘monolith’) you now have dozens or even hundreds 
-of (micro)services. And each of these services needs resources, monitoring, and fixing if a problem 
-occurs. While it may be feasible to do all those things manually for a single service, you'll need 
-automated processes when dealing with multiple services, each with its own containers.
+#### 它解决什么问题
 
-### How it helps
+如在“云原生网络”部分所述，在云原生体系结构中，应用程序被分解为小组件或服务，每个服务放置在容器中。你可能听说过它们被称为[微服务](https://github.com/cncf/glossary/blob/main/content/en/microservices-architecture.md)。现在，你不再有一个大型应用程序（通常被称为“巨石系统”），而是有几十甚至数百个（微）服务。每个服务都需要资源、监控和修复，如果出现问题。虽然针对单个服务手动完成所有这些工作可能是可行的，但在处理具有自己容器的多个服务时，你需要自动化的流程。
 
-Container orchestrators automate container management. But what does that mean in practice? Let's 
-answer that for Kubernetes since it is the de facto container orchestrator.
+#### 它如何帮助（解决问题）
 
-Kubernetes does something called desired state reconciliation: it matches the current state of 
-containers within a cluster to the desired state. The desired state is specified by the engineer 
-(e.g. ten instances of service A running on three nodes, i.e. machines, with access to database B, 
-etc.) and continuously compared against the actual state. If the desired and actual state don't 
-match, Kubernetes reconciles them by creating or destroying objects. For example, if a container 
-crashes, Kubernetes will spin up a new one.
+容器编排工具自动化了容器管理。但这在实践中意味着什么？让我们来回答一下 Kubernetes 的情况，因为它是事实上的容器编排工具。
 
-In short, Kubernetes allows you to treat a cluster as one computer. It focuses only on what that 
-environment should look like and handles the implementation details for you.
+Kubernetes 做的事情被称为期望状态协调：它将集群中容器的当前状态与期望状态匹配。期望状态由工程师指定（例如，在三个节点（即机器）上运行十个服务 A 实例，并访问数据库 B 等），并不断与实际状态进行比较。如果期望和实际状态不匹配，Kubernetes 通过创建或销毁对象来协调它们。例如，如果一个容器崩溃了，Kubernetes 就会启动一个新的容器。
 
-### Technical 101
+简而言之，Kubernetes 允许您将集群视为一个计算机。它只关注环境应该看起来像什么，并为您处理实现细节。
 
-Kubernetes lives in the orchestration and scheduling section along with other other less widely 
-adopted orchestrators like Docker Swarm and Mesos. It enables users to manage a number of 
-disparate computers as a single pool of resources in a declarative way. 
-Declarative configuration management in Kubernetes is handled via 
-[control loops](https://kubernetes.io/docs/concepts/architecture/controller/), a pattern in which 
-a process running in Kubernetes monitors the Kubernetes store for a particular object type and 
-ensures the actual state in the cluster matches the desired state.
+#### Technical 101
 
-As an example, a user creates a Kubernetes deployment that states there must be 3 copies of a web 
-application. The deployment controller will ensure that those 3 web application containers get 
-created then continue to monitor the cluster to see if the number of containers is correct. If a 
-particular container gets removed for any reason the deployment controller will cause a new 
-instance to be created. Alternatively if the deployment is modified to scale down to 1 web app 
-instance it will instruct Kubernetes to delete 2 of the running web apps.
+Kubernetes 位于编排和调度层，与 Docker Swarm 和 Mesos 等其他容器编排器一起，以声明性方式管理多个不同的计算机资源池。 Kubernetes 中的声明性配置管理是通过[控制循环](https://kubernetes.io/docs/concepts/architecture/controller/)处理的，这是一种模式，其中在 Kubernetes 中运行的进程监视特定对象类型的 Kubernetes 存储，并确保群集中的实际状态与期望状态相匹配。
 
-This core controller pattern can also be used to extend Kubernetes by users or software developers. 
-The operator pattern allows people to write custom controllers for custom resources and build any 
-arbitrary logic, and automation, into kubernetes itself.
+例如，用户创建了一个 Kubernetes 部署，指定必须有3个Web应用程序副本。部署控制器将确保创建这3个 Web 应用程序容器，然后继续监视群集，以查看容器数量是否正确。如果由于任何原因删除了特定容器，部署控制器将导致创建新实例。如果将部署修改为缩小到1个Web应用程序实例，则会指示 Kubernetes 删除2个正在运行的 Web 应用程序。
 
-While Kubernetes isn’t the only orchestrator the CNCF hosts (both Crossplane and Volcano are 
-incubating projects), it is the most commonly used and actively maintained orchestrator.
+此核心控制器模式也可用于由用户或软件开发人员扩展 Kubernetes 。操作员模式允许人们为自定义资源编写自定义控制器，并在Kubernetes本身中构建任意逻辑和自动化。
+
+虽然 Kubernetes 不是 CNCF 托管的唯一编排器（Crossplane 和 Volcano 都是沙盒项目），但它是最常用和活跃维护的编排器。
 
 </section>
 
 <section data-subcategory="Coordination & Service Discovery"
          data-buzzwords="DNS, Service Discovery">
 
-### What it is
+### 协调和服务发现
 
-Modern applications are composed of multiple individual services that need to collaborate to 
-provide value to the end user. To collaborate, they communicate over a network (see cloud native 
-networking), and to communicate, they must first locate one another. Service discovery is the 
-process of figuring out how to do that.
+#### 它是什么
 
-### Problem it addresses
+现代应用程序由多个单独的服务组成，这些服务需要协作才能为最终用户提供价值。为了协作，它们通过网络通信（参见云原生网络），为了通信，它们必须首先找到彼此。服务发现是找出如何做到这一点的过程。
 
-Cloud native architectures are dynamic and fluid, meaning they are constantly changing. When a 
-container crashes on one node, a new container is spun up on a different node to replace it. Or, 
-when an app scales, replicas are spread out throughout the network. There is no one place where a 
-particular service is — the location of everything is constantly changing. Tools in this category 
-keep track of services within the network so services can find one another when needed.
+#### 它解决什么问题
 
-### How it helps
+云原生架构是动态和流动的，这意味着它们不断变化。当容器在一个节点上崩溃时，会在另一个节点上旋转一个新的容器以替换它。或者，当应用程序扩展时，副本会分散在整个网络中。没有一个特定服务的位置 - 一切的位置都在不断改变。此类工具跟踪网络内的服务，以便服务在需要时可以找到彼此。
 
-Service discovery tools address this problem by providing a common place to find and potentially 
-identify individual services. There are basically two types of tools in this category:
+#### 它如何帮助（解决问题）
 
-1. **Service discovery engines**: database-like tools that store information on all services and 
-how to locate them
-2. **Name resolution tools**: tools that receive service location requests and return network 
-address information (e.g. CoreDNS)
+服务发现工具通过提供一个共同的位置来查找和识别个别服务来解决此问题。在此类别中基本上有两种工具:
+
+1. **服务发现引擎**：类似数据库的工具，存储有关所有服务及其定位方法的信息
+2. **名称解析工具**：接收服务定位请求并返回网络地址信息的工具（例如 CoreDNS）
 
 > ##### INFOBOX
-> In Kubernetes, to make a pod reachable a new abstraction layer called "service"  is introduced. 
-> Services provide a single stable address for a dynamically changing group of pods.
-> 
-> Please note that "service" may have different meanings in different contexts, which can be quite 
-> confusing. The term “services” generally refers to the service placed inside a container and pod. 
-> It's the app component or microservice with a specific function within the actual app, for 
-> example your mobile phone’s face recognition algorithm.
-> 
-> A Kubernetes service is the abstraction that helps pods find and connect to each other. It is an 
-> entry point for a service (functionality) as a collection of processes or pods. In Kubernetes, 
-> when you create a service (abstraction), you create a group of pods which together provide a 
-> service (functionality within one or more containers) with a single end point (entry point) 
-> which is the Kubernetes service.
+
+> 在 Kubernetes 中，为了使 pod 可达性，引入了一个新的抽象层，称为“服务”。服务为动态更改的一组 pod 提供了单一的稳定地址。
+
+> 请注意，“服务”在不同的上下文中可能具有不同的含义，这可能非常令人困惑。术语“服务”通常指放置在容器和 pod 中的服务。它是应用程序组件或微服务，具有实际应用程序中特定功能，例如移动电话的面部识别算法。
+
+> Kubernetes 服务是指帮助 pod 找到并相互连接的抽象。它是服务（功能）的入口点，作为一组进程或 pod。在 Kubernetes 中，当您创建服务（抽象）时，您创建一组 pod，这些 pod 共同提供具有单一端点（入口点）的服务（一个或多个容器中的功能），该端点是 Kubernetes 服务。
 
 #### Technical 101
 
-As distributed systems became more and more prevalent, traditional DNS processes and traditional 
-load balancers were often unable to keep up with changing endpoint information. To make up for 
-these shortcomings, service discovery tools handle individual application instances rapidly 
-registering and deregistering themselves. Some options such as CoreDNS and etcd are CNCF projects 
-and are built into Kubernetes. Others have custom libraries or tools to allow services to operate 
-effectively.
+随着分布式系统越来越普及，传统的 DNS 过程和传统的负载均衡器经常无法跟上不断变化的端点信息。为了弥补这些不足，服务发现工具处理单个应用程序实例快速注册和注销自己。一些选项，如 CoreDNS 和 etcd 是 CNCF 项目，并内置于 Kubernetes 中。其他工具则有自定义库或工具，可以使服务有效运作。
 
 </section>
 
 <section data-subcategory="Remote Procedure Call"
          data-buzzwords="gRPC">
 
-### What it is
+### 远程过程调用
 
-Remote Procedure Call (RPC) is a particular technique enabling applications to talk to each other. 
-It's one way of structuring app communication.
+#### 它是什么
 
-### Problem it addresses
+远程过程调用（RPC）是一种特定的技术，使应用程序能够相互通信。这是一种应用程序通信结构的方式。
 
-Modern apps are composed of numerous individual services that must communicate in order to 
-collaborate. RPC is one option for handling the communication between applications.
+#### 它解决什么问题
 
-### How it helps
+现代应用程序由许多单独的服务组成，这些服务必须进行通信才能协作。RPC是处理应用程序之间通信的一种选择。
 
-RPC provides a tightly coupled and highly opinionated way of handling communication between 
-services. It allows for bandwidth-efficient communications and many programming languages enable 
-RPC interface implementations.
+#### 它如何帮助（解决问题）
 
-### Technical 101
+RPC 提供一种紧密耦合和高度可选择的处理服务之间通信的方式。它允许带宽高效的通信，并且许多编程语言支持 RPC 接口实现。
 
-There are a lot of potential benefits with RPC: It makes coding connections easier, it allows for 
-extremely efficient use of the network layer and well-structured communications between services. 
-RPC has also been criticized for creating brittle connection points and forcing users to do 
-coordinated upgrades for multiple services. gRPC is a particularly popular RPC implementation and 
-has been adopted by the CNCF.
+#### Technical 101
+
+使用 RPC 有很多潜在的好处：它使编码连接更容易，允许在网络层上实现极其高效的使用和服务之间的良好结构化通信。但是，RPC 也因为创建脆弱的连接点和迫使用户对多个服务进行协调升级而受到批评。gRPC 是一种特别流行的 RPC 实现，已被 CNCF 采用。
 
 </section>
 
 <section data-subcategory="Service Proxy"
          data-buzzwords="Service Proxy, Ingress">
 
-### What it is
+### 服务代理
 
-A service proxy is a tool that intercepts traffic to or from a given service, applies some logic to 
-it, then forwards that traffic to another service. It essentially acts as a “go-between” that can 
-collect information about network traffic as well as apply rules to it. This can be as simple as 
-serving as a load balancer that forwards traffic to individual applications or as complex as 
-an interconnected mesh of proxies running side by side with individual containerized applications 
-handling all network connections.
+#### 它是什么
 
-While a service proxy is useful in and of itself, especially when driving traffic from the broader 
-network into a Kubernetes cluster, service proxies are also building blocks for other systems, such 
-as API gateways or service meshes, which we'll discuss below.
+服务代理是一种工具，它拦截到或从给定服务出发的流量，应用一些逻辑，然后将该流量转发到另一个服务。它本质上充当一个“中间人”，可以收集有关网络流量的信息以及对其应用规则。这可以是简单的负载均衡器，将流量转发到单个应用程序，也可以是互联的代理网格，与单个容器化应用程序并行运行，处理所有网络连接。
 
-### Problem it addresses
+服务代理本身就很有用，而在在将流量从更广泛的网络驱动特别是到 Kubernetes 集群时，服务代理也是其他系统的构建块。例如 API 网关或服务网格，我们将在下面讨论。
 
-Applications should send and receive network traffic in a controlled manner. To keep track of the 
-traffic and potentially transform or redirect it, we need to collect data. Traditionally, the code 
-enabling data collection and network traffic management was embedded within each application.
+#### 它解决什么问题
 
-A service proxy "externalizes" this functionality. No longer does it have to live within the app. 
-Instead, it's embedded in the platform layer (where your apps run). This is incredibly powerful 
-because it allows developers to fully focus on writing your value-generating application code, 
-allowing the universal task of handling traffic to be managed by the platform team, whose 
-responsibility it should be in the first place. Centralizing the distribution and management of 
-globally needed service functionality such as routing or TLS termination from a single common 
-location allows communication between services to become more reliable, secure, and performant.
+应用程序应以受控方式发送和接收网络流量。为了跟踪流量并可能转换或重定向它，我们需要收集数据。传统上，启用数据收集和网络流量管理的代码嵌入在每个应用程序中。
 
-### How it helps
+服务代理“外部化”了此功能。它不再必须存在于应用程序中。相反，它嵌入在平台层（您的应用程序运行的位置）。这非常强大，因为它允许开发人员完全专注于编写生成价值的应用程序代码，从而允许处理流量的通用任务由平台团队管理，这首先应该是他们的责任。从单个公共位置集中分发和管理全球所需的服务功能（例如路由或 TLS 终止）可使服务之间的通信变得更加可靠，安全和高效。
 
-Proxies act as gatekeepers between the user and services or between different services. With this 
-unique positioning, they provide insight into what type of communication is happening and can then 
-determine where to send a particular request or even deny it entirely.
+#### 它如何帮助（解决问题）
 
-Proxies gather critical data, manage routing (spreading traffic evenly among services or rerouting 
-if some services break down), encrypt connections, and cache content (reducing resource 
-consumption).
+代理作为用户与服务或不同服务之间的门卫。由于其独特的位置，它们提供了对正在发生的通信类型的洞察，并可以确定将特定请求发送到何处，甚至完全拒绝它。
 
-### Technical 101
+代理收集关键数据，管理路由（在服务之间平均分配流量或在某些服务发生故障时重新路由），加密连接并缓存内容（减少资源消耗）。
 
-Service proxies work by intercepting traffic between services, applying logic on it, and allowing 
-it to move on if permitted. Centrally controlled capabilities embedded into proxies allow 
-administrators to accomplish several things. They can gather detailed metrics about inter-service 
-communication, protect services from being overloaded, and apply other common standards to 
-services, like mutual TLS. Service proxies are fundamental to other tools like service meshes as 
-they provide a way to enforce higher-level policies to all network traffic.
+#### Technical 101
 
-Please note, the CNCF includes load balancers and ingress providers into this category.
+服务代理通过拦截服务之间的流量，对其进行逻辑处理，并允许其在允许的情况下继续移动。嵌入到代理中的集中控制功能使管理员能够完成几件事情。他们可以收集有关服务间通信的详细指标，保护服务免受过载，并对服务应用其他常见标准，例如相互 TLS。对于像服务网格这样的工具，服务代理是基础的，因为它们提供了一种将更高级别的策略强制应用于所有网络流量的方式。
+
+请注意，CNCF 将负载均衡器和入口提供程序包括在此类别中。
 
 </section>
 
 <section data-subcategory="API Gateway"
          data-buzzwords="API Gateway">
 
-### What it is
+### API 网关
 
-While humans generally interact with computer programs via a GUI (graphical user interface) such as 
-a web page or a desktop application, computers interact with each other through APIs 
-(application programming interfaces). But an API shouldn't be confused with an API gateway.
+#### 它是什么
 
-An API gateway allows organizations to move key functions, such as authorizing or limiting the 
-number of requests between applications, to a centrally managed location. It also functions as a 
-common interface to (often external) API consumers.
+人类通常通过 GUI（图形用户界面）与计算机程序交互，例如网页或桌面应用程序，而计算机通过 API（应用程序编程接口）相互交互。但 API 不应与 API 网关混淆。
 
-### Problem it addresses
+API 网关允许组织将关键功能（如授权或限制应用程序之间的请求数量）移动到集中管理的位置。它还作为（通常是外部的）API 消费者的公共接口。
 
-While most containers and core applications have an API, an API gateway is more than just an API. 
-An API gateway simplifies how organizations manage and apply rules to all interactions.
+#### 它解决什么问题
 
-API gateways allow developers to write and maintain less custom code (the system functionality 
-is encoded into the API gateway, remember?). They also enable teams to see and control the 
-interactions between application users and the applications themselves.
+虽然大多数容器和核心应用程序都有一个 API，但 API 网关不仅仅是一个 API。API 网关简化了组织如何管理和应用规则到所有交互。
 
-### How it helps
+API 网关允许开发人员编写和维护更少的自定义代码（系统功能被编码在 API 网关中，还记得吗？）。它们还使团队能够查看和控制应用程序用户与应用程序本身之间的交互。
 
-An API gateway sits between the users and the application. It acts as a go-between that takes the 
-messages (requests) from the users and forwards them to the appropriate service. But before handing 
-the request off, it evaluates whether the user is allowed to do what they’re trying to do and 
-records details about who made the request and how many requests they’ve made.
+#### 它如何帮助（解决问题）
 
-Put simply, an API gateway provides a single point of entry with a common user interface for app 
-users. It also enables you to handoff tasks otherwise implemented within the app to the gateway, 
-saving developer time and money.
+API网关位于用户和应用程序之间。它充当一个中间代理，接收用户的消息（请求），并将其转发到适当的服务。但在移交请求之前，它会评估用户是否被允许做他们想做的事情，并记录有关谁发出请求以及他们发出了多少请求的详细信息。
 
-> ##### EXAMPLE
-> 
-> Take Amazon store cards. To offer them, Amazon partners with a bank that will issue and manage 
-> all Amazon store cards. In return, the bank will keep, let's say, $1 per transaction. The bank 
-> will use an API gateway to authorize the retailer to request new cards, keep track of the number 
-> of transactions for billing, and maybe even restrict the number of requested cards per minute. 
-> All that functionality is encoded into the gateway, not the services using it. Services just 
-> worry about issuing cards.
+简而言之，API网关为应用程序用户提供一个单一的入口点，具有常见的用户界面。它还使您能够将在应用程序中实现的任务移交给网关，从而节省开发人员的时间和金钱。
 
-### Technical 101
+> ##### 示例
+> 以亚马逊商店卡为例。为了提供它们，亚马逊与一家银行合作，该银行将发行和管理所有亚马逊商店卡。作为回报，银行将保留每笔交易的1美元。银行将使用API网关来授权零售商请求新卡，跟踪结算的交易数量，甚至可能限制每分钟请求的卡数。所有这些功能都编码到网关中，而不是使用它的服务。服务只关心发卡。
 
-Like proxies and service meshes (see below), an API gateway takes custom code out of our apps and 
-brings it into a central system. The API gateway works by intercepting calls to backend services, 
-performing some kind of value add activity like validating authorization, collecting metrics, 
-or transforming requests, then performing whatever action it deems appropriate.
+#### Technical 101
 
-API gateways serve as a common entry point for a set of downstream applications while at the same 
-time providing a place where teams can inject business logic to handle authorization, rate 
-limiting, and chargeback. They allow application developers to abstract away changes to their 
-downstream APIs from their customers and offload tasks like onboarding new customers to the gateway.
+像代理和服务网格（见下文）一样，API 网关将自定义代码从我们的应用程序中取出并引入到中央系统中。API 网关通过拦截对后端服务的调用来工作，执行某种增值活动，例如验证授权、收集度量或转换请求，然后执行它认为合适的任何操作。
+
+API 网关为一组下游应用程序提供一个共同的入口点，同时提供一个团队可以注入业务逻辑来处理授权、速率限制和计费的地方。它们允许应用程序开发人员将对其下游 API 的更改抽象出来，使其客户无需关注，同时将像新客户入门这样的任务卸载到网关。
 
 </section>
 
 <section data-subcategory="Service Mesh"
          data-buzzwords="Service mesh, Sidecar, Data plane, Control plane">
 
-### What it is
+### 服务网格
 
-Service meshes manage traffic (i.e. communication) between services. They enable platform teams 
-to add reliability, observability, and security features uniformly across all services running 
-within a cluster without requiring any code changes.
+#### 它是什么
 
-Along with Kubernetes, service meshes have become some of the most critical infrastructure 
-components of the cloud native stack.
+服务网格管理服务之间的流量（即通信）。它们使平台团队能够在集群内运行的所有服务中统一添加可靠性、可观察性和安全功能，而无需进行任何代码更改。
 
-### Problem it addresses
+与 Kubernetes 一起，服务网格已成为云原生堆栈中最重要的基础架构组件之一。
 
-In a cloud native world, we are dealing with multiple services all needing to communicate. This 
-means a lot more traffic is going back and forth on an inherently unreliable and often slow 
-network. To address this new set of challenges, engineers must implement additional functionality. 
-Prior to the service mesh, that functionality had to be encoded into every single application. 
-This custom code often became a source of technical debt and provided new avenues for failures 
-or vulnerabilities.
+#### 它解决什么问题
 
-### How it helps
+在云原生世界中，我们处理多个服务需要通信。这意味着更多的流量在本质上不可靠且常常缓慢的网络上来回传递。为了解决这个新的一系列挑战，工程师必须实现额外的功能。在服务网格之前，这些功能必须编码到每个应用程序中。这种定制代码经常成为技术债务的源头，并提供了新的失败或漏洞的途径。
 
-Service meshes add reliability, observability, and security features uniformly across all services 
-on a platform layer without touching the app code. They are compatible with any programming 
-language, allowing development teams to focus on writing business logic.
+#### 它如何帮助（解决问题）
 
-> ##### INFOBOX
-> 
-> Since traditionally, these service mesh features had to be coded into each service, each time 
-> a new service was released or updated, the developer had to ensure these features were 
-> functional, too, providing a lot of room for human error. And here's a dirty little secret, 
-> developers prefer focusing on business logic (value-generating functionalities) rather than 
-> building reliability, observability, and security features.
-> 
-> For the platform owners, on the other hand, these are core capabilities and central to everything 
-> they do. Making developers responsible for adding features that platform owners need is 
-> inherently problematic. This, by the way, also applies to general-purpose proxies and API 
-> gateways mentioned above. Service meshes and API gateways solve that very issue as they are 
-> implemented by the platform owners and applied universally across all services.
+服务网格在不触及应用程序代码的情况下，在平台层统一为所有服务添加可靠性、可观察性和安全性功能。它们兼容任何编程语言，使开发团队可以专注于编写业务逻辑。
 
-### Technical 101
+> ##### 信息盒子
+> 传统上，这些服务网格功能必须编码到每个服务中，每次发布或更新新服务时，开发人员必须确保这些功能也是可用的，从而提供了很大的人为错误空间。一个不为人知的秘密是，开发人员更喜欢专注于业务逻辑（产生价值的功能），而不是构建可靠性、可观察性和安全性功能。
+> 对于平台所有者来说，这些是核心能力，是他们所做的一切的核心。让开发人员负责添加平台所有者需要的功能本质上是有问题的。顺便说一下，这也适用于上面提到的通用代理和API网关。服务网格和API网关解决了这个问题，因为它们由平台所有者实施，并普遍应用于所有服务。
 
-Service meshes bind all services running on a cluster together via service proxies creating a mesh 
-of services, hence service mesh. These are managed and controlled through the service mesh control 
-plane. Service meshes allow platform owners to perform common actions or collect data on 
-applications without having developers write custom logic.
 
-In essence, a service mesh is an infrastructure layer that manages inter-service communications by 
-providing command and control signals to a network of service proxies (your mesh). Its power lies 
-in its ability to provide key system functionality without having to modify the applications.
+#### Technical 101
 
-Some service meshes use a general-purpose service proxy (see above) for their data plane. Others 
-use a dedicated proxy; Linkerd, for example, uses the [Linkerd2-proxy "micro proxy"](https://linkerd.io/) 
-to gain an advantage in performance and resource consumption. These proxies are uniformly attached 
-to each service through so-called sidecars. Sidecar refers to the fact that the proxy runs in its 
-own container but lives in the same pod. Just like a motorcycle sidecar, it's a separate module 
-attached to the motorcycle, following it wherever it goes.
+服务网格通过服务代理将群集中运行的所有服务绑定在一起，从而创建服务网格。这些由服务网格控制平面进行管理和控制。服务网格允许平台所有者执行常见操作或收集有关应用程序的数据，而无需开发人员编写自定义逻辑。
 
-> ##### EXAMPLE
-> 
-> Take circuit breaking. In microservice environments, individual components often fail or begin 
-> running slowly. Without a service mesh, developers would have to write custom logic to handle 
-> downstream failures gracefully and potentially set cooldown timers to avoid upstream services 
-> to continually request responses from degraded or failed downstream services. With a service 
-> mesh, that logic is handled at a platform level.
-> 
-> Service meshes provide many useful features, including the ability to surface detailed metrics, 
-> encrypt all traffic, limit what operations are authorized by what service, provide additional 
-> plugins for other tools, and much more. For more detailed information, check out the 
-> [service mesh interface](https://smi-spec.io/) specification.
+实质上，服务网格是管理服务之间通信的基础结构层，通过向服务代理网络（您的网格）提供命令和控制信号来实现。它的强大之处在于它能够提供关键的系统功能，而无需修改应用程序。
+
+一些服务网格使用通用的服务代理（如上所述）作为其数据平面。其他人使用专用代理；例如，Linkerd 使用 [Linkerd2-proxy “微代理”](https://linkerd.io/)来在性能和资源消耗方面获得优势。这些代理通过所谓的旁路附加到每个服务。边车（Sidedecar）是指代理在自己的容器中运行，但位于同一 pod 中。就像摩托车旁的边车一样，它是一个单独的模块，跟随摩托车走到哪里。
+
+> ##### 例子
+> 以熔断器为例。在微服务环境中，单个组件经常会失败或开始运行缓慢。如果没有服务网格，则开发人员将不得不编写自定义逻辑来优雅地处理下游故障，并可能设置冷却时间器，以避免上游服务不断请求来自降级或故障下游服务的响应。有了服务网格，该逻辑在平台级别处理。
+> 服务网格提供许多有用的功能，包括显示详细的指标、加密所有流量、限制哪个服务被授权执行哪些操作、为其他工具提供附加插件等等。有关更详细的信息，请查看[服务网格接口](https://smi-spec.io/)规范。
 
 </section>
 
-### Summary: Orchestration & Management
+### 总结：编排和管理
 
-As we've seen, tools in this layer deal with how all these independent containerized services are 
-managed as a group. Orchestration and scheduling tools can be thought of as a  cluster OS 
-managing containerized applications across your cluster. Coordination and service discovery, 
-service proxies, and service meshes ensure services can find each other and communicate effectively 
-in order to collaborate as one cohesive app. API gateways are an additional layer providing even 
-more control over service communication, in particular between external applications. Next, we'll 
-discuss the application definition and development layer — the last layer of the CNCF landscape. It 
-covers databases, streaming and messaging, application definition, and image build, as well as 
-continuous integration and delivery.
+正如我们所看到的，这个层面的工具涉及如何作为一个组管理所有这些独立的容器化服务。编排和调度工具可以被视为一个集群操作系统，管理您集群中的容器化应用程序。协调和服务发现、服务代理以及服务网格确保服务可以相互找到并有效地通信，以协同作为一个一体化的应用。API 网关是提供更多控制服务间通信的额外层，特别是在外部应用程序之间。接下来，我们将讨论应用程序定义和开发层—— CNCF 景观的最后一层。它涵盖数据库、流媒体和消息传递、应用程序定义和镜像构建，以及持续集成和交付。
 
 <section data-category="App Definition and Development">
 
-Everything we have discussed up to this point was related to building a reliable, secure environment 
-and providing all needed dependencies. We've now arrived at the top layer of the CNCF cloud 
-native landscape. As the name suggests, the application definition and development layer focuses 
-on the tools that enable engineers to build apps.
+## 应用程序定义和开发
+
+到目前为止，我们讨论的所有内容都与构建可靠、安全的环境和提供所有必需的依赖项有关。现在，我们到达了CNCF云原生景观的顶层。顾名思义，应用程序定义和开发层专注于使工程师能够构建应用程序的工具。
 
 </section>
 
 <section data-subcategory="Database"
          data-buzzwords="SQL, DB, Persistence">
 
-### What it is
+### 数据库
 
-A database is an application through which other apps can efficiently store and retrieve data. 
-Databases allow you to store data, ensure only authorized users access it, and enable users to 
-retrieve it via specialized requests. While there are numerous different types of databases with 
-different approaches, they ultimately all have these same overarching goals.
+#### 它是什么
 
-### Problem it addresses
+数据库是一种应用程序，通过该应用程序，其他应用程序可以高效地存储和检索数据。数据库允许您存储数据，确保只有经过授权的用户可以访问它，并通过专门的请求使用户可以检索它。虽然有许多不同类型的数据库具有不同的方法，但它们最终都具有相同的总体目标。
 
-Most applications need an effective way to store and retrieve data while keeping that data safe. 
-Databases do this in a structured way with proven technology though there is quite a bit of 
-complexity that goes into doing this well.
+#### 它解决什么问题
 
-### How it helps
+大多数应用程序需要一种有效的方法来存储和检索数据，同时保持数据的安全性。数据库使用经过验证的技术以结构化方式完成此操作，尽管这需要相当复杂的技术。
 
-Databases provide a common interface for applications to store and retrieve data. Developers use 
-these standard interfaces and a relatively simple query language to store, query, and retrieve 
-information. At the same time, databases allow users to continuously backup and save data, as 
-well as encrypt and regulate access to it.
+#### 它如何帮助（解决问题）
 
-### Technical 101
+数据库为应用程序提供了一个通用的接口来存储和检索数据。开发人员使用这些标准接口和相对简单的查询语言来存储、查询和检索信息。同时，数据库允许用户持续备份和保存数据，以及加密和管理对其的访问。
 
-Databases are apps that store and retrieve data, using a common language and interface compatible 
-with a number of different languages and frameworks.
+#### Technical 101
 
-In general, there are two common types of databases: Structured query language (SQL) databases and 
-no-SQL databases. Which database a particular application uses should be driven by its needs and 
-constraints.
+数据库是存储和检索数据的应用程序，使用一种通用的语言和接口，与许多不同的语言和框架兼容。
 
-With the rise of Kubernetes and its ability to support stateful applications, we’ve seen a new 
-generation of databases take advantage of containerization. These new cloud native databases aim 
-to bring the scaling and availability benefits of Kubernetes to databases. Tools like YugabyteDB 
-and Couchbase are examples of cloud native databases, although more traditional databases like 
-MySQL and Postgres run successfully and effectively in Kubernetes clusters.
+通常，有两种常见类型的数据库：结构化查询语言（SQL）数据库和 no-SQL 数据库（译者注：即关系型数据库和非关系型数据库，可以查阅 Design Data-intensive Application 这本书）。应该根据特定应用程序的需求和限制来确定它使用哪种数据库。
 
-Vitess and TiKV are CNCF projects in this space.
+随着 Kubernetes 的兴起及其支持有状态应用程序的能力，我们看到了一批新一代数据库利用容器化的优势。这些新的云本地数据库旨在将 Kubernetes 的扩展性和可用性带到数据库中。像 YugabyteDB 和 Couchbase 这样的工具是云本地数据库的例子，尽管 MySQL 和 Postgres 等更传统的数据库也可以在 Kubernetes 集群中成功有效地运行。
 
-> ##### INFOBOX
+Vitess 和 TiKV 是 CNCF 在这个领域的项目。
+
+> ##### 信息框
 > 
-> If you look at this category, you'll notice multiple names ending in DB (e.g. MongoDB, 
-> CockroachDB, FaunaDB) which, as you may guess, stands for database. You'll also see various 
-> names ending in SQL (e.g. MySQL or memSQL) — they are still relevant. Some are "old school" 
-> databases that have been adapted to a cloud native reality. There are also some databases that 
-> are no-SQL but SQL compatible, such as YugabyteDB and Vitess.
+> 如果您查看此类别，您会注意到许多名称以 DB 结尾（例如MongoDB，CockroachDB，FaunaDB），您可能会猜到它代表数据库。您还会看到各种以 SQL 结尾的名称（例如 MySQL 或 memSQL）它们仍然相关。有些是“老派”的数据库已经适应了云本地的现实。还有一些数据库是非 SQL 但兼容 SQL 的，例如 YugabyteDB 和 Vitess。
 
 </section>
 
 <section data-subcategory="Streaming & Messaging"
          data-buzzwords="Choreography, Streaming, MQ, Message bus">
 
-### What it is
+### 流和消息
 
-To accomplish a common goal, services need to communicate with one another and keep each other in 
-the loop. Each time a service does something, it sends a message about that particular event.
+#### 它是什么
 
-Streaming and messaging tools enable service-to-service communication by transporting messages 
-(i.e. events) between systems. Individual services connect to the messaging service to either 
-publish events, read messages from other services, or both. This dynamic creates an environment 
-where individual apps are either publishers, meaning they write events, or subscribers that read 
-events, or more likely both.
+为了实现共同的目标，服务需要相互通信并保持彼此联系。每当一个服务执行某个操作时，它会发送有关该特定事件的消息。
 
-### Problem it addresses
+流和消息工具通过在系统之间传输消息（即事件）来实现服务与服务之间的通信。各个服务连接到消息服务以发布事件、从其他服务读取消息或两者兼而有之。这种动态创造了一种环境，其中各个应用程序要么是发布者，即它们编写事件，要么是订阅者，读取事件，或更可能是两者兼而有之。
 
-As services proliferate, application environments become increasingly complex, making the 
-management of communication between apps more challenging. A streaming or messaging platform 
-provides a central place to publish and read all the events that occur within a system, 
-allowing applications to work together without necessarily knowing anything about one another.
+#### 它解决什么问题
 
-### How it helps
+随着服务的增加，应用程序环境变得越来越复杂，使得应用程序之间的通信管理变得更具挑战性。流和消息平台提供了一个中心位置，用于发布和读取系统内发生的所有事件，使应用程序能够在不必了解彼此的情况下协同工作。
 
-When a service does something other services should know about, it "publishes" an event to the 
-streaming or messaging tool. Services that need to know about these types of events “subscribe” 
-and watch the streaming or messaging tool. That's the essence of a publish-subscribe, or just 
-pub-sub, approach and is enabled by these tools.
+#### 它如何帮助（解决问题）
 
-By introducing a "go-between" layer that manages all communication, we are decoupling services 
-from one another. They simply watch for events, take action, and publish a new one.
+当服务执行其他服务应该知道的操作时，它会将事件“发布”到流式传输或消息传递工具。需要了解这些类型事件的服务会“订阅”并观察流式传输或消息传递工具。这就是发布-订阅或只是 pub-sub 方法的本质，由这些工具实现。
 
-Here's an example. When you first sign up for Netflix, the "signup" service publishes a "new signup 
-event" to a messaging platform with further details such as name, email address, subscription 
-level, etc. The "account creator" service, which subscribes to signup events, will see the event and
-create your account. A "customer communication" service that also subscribes to new signup 
-events will add your email address to the customer mailing list and generate a welcome email, 
-and so on.
+通过引入一个“中间”层来管理所有通信，我们将服务之间解耦。它们只需观察事件、执行操作并发布新事件。
 
-This allows for a highly decoupled architecture where services can collaborate without needing to 
-know about one another. This decoupling enables engineers to add new functionality without 
-updating downstream apps, known as consumers, or sending a bunch of queries. The more decoupled a 
-system is, the more flexible and amenable it is to change. And that is exactly what engineers 
-strive for in a system.
+举例来说。当你第一次注册 Netflix 时，“注册”服务会将“新注册事件”发布到消息平台，其中包括姓名、电子邮件地址、订阅级别等详细信息。订阅注册事件的“账户创建器”服务将看到该事件并创建你的账户。还订阅新注册事件的“客户通讯”服务将把你的电子邮件地址添加到客户邮件列表中并生成欢迎电子邮件等等。
 
-### Technical 101
+这允许高度解耦的架构，在其中服务可以协作而无需知道彼此。这种解耦使工程师能够添加新功能而无需更新下游应用程序（即消费者）或发送一堆查询。系统解耦程度越高，越灵活、易于变更。这正是工程师在系统中所追求的。
 
-Messaging and streaming tools have been around long before cloud native became a thing. To 
-centrally manage business-critical events, organizations have built large enterprise service 
-buses. But when we talk about messaging and streaming in a cloud native context, we’re generally 
-referring to tools like NATS, RabbitMQ, Kafka, or cloud provided message queues.
+#### Technical 101
 
-What these systems have in common are the architecture patterns they enable. Application 
-interactions in a cloud native environment are either orchestrated or choreographed. There's a 
-lot more to it, but let's just say that orchestrated refers to systems that are centrally managed, 
-and choreographed systems allow individual components to act independently.
+在云原生成为主流之前，消息传递和流媒体工具一直存在。为了集中管理业务关键事件，组织机构建立了大型企业服务总线。但是，当我们谈论云原生上的消息传递和流媒体时，我们通常指的是像NATS、RabbitMQ、Kafka 或云提供的消息队列等工具。
 
-Messaging and streaming systems provide a central place for choreographed systems to communicate. 
-The message bus provides a common place where all apps can go to tell others what they’re doing 
-by publishing messages, or see what's going on by subscribing to messages.
+这些系统的共同点在于它们所支持的架构模式。在云原生环境中，应用程序交互要么是被编排的，要么是被协调的。这方面还有很多内容，但我们可以简单地说，编排是指集中管理的系统，而协调是指允许各个组件独立地运行的系统。
 
-The NATS and Cloudevents projects are both incubating CNCF projects in this space. NATS provides a 
-mature messaging system and Cloudevents is an effort to standardize message formats between 
-systems. Strimzi, Pravega, and Tremor are sandbox projects with each being tailored to a unique 
-use case around streaming and messaging.
+消息传递和流媒体系统提供了一个中央位置，让协调的系统之间进行通信。消息总线提供了一个共同的位置，所有应用程序都可以通过发布消息来向其他应用程序告知自己正在做什么，或通过订阅消息来了解发生了什么。
+
+NATS 和 Cloudevents 项目都是CNCF的孵化项目。NATS 提供了一个成熟的消息传递系统，而 Cloudevents 是一种标准化消息格式的努力，旨在实现不同系统之间的互通。Strimzi、Pravega 和Tremor是沙盒项目，每个项目都针对流媒体和消息传递的不同用例进行了优化。
 
 </section>
 
 <section data-subcategory="Application Definition & Image Build"
          data-buzzwords="Package Management, Charts, Operators">
 
-### What it is
+### 应用程序定义和镜像构建
 
-Application definition and image build is a broad category that can be broken down into two main 
-subgroups. First, developer-focused tools that help build application code into containers and/or 
-Kubernetes. And second, operations-focused tools that deploy apps in a standardized way. Whether 
-you intend to speed up or simplify your development environment, provide a standardized way to 
-deploy third-party apps, or wish to simplify the process of writing a new Kubernetes extension, 
-this category serves as a catch-all for a number of projects and products that optimize the 
-Kubernetes developer and operator experience.
+#### 它是什么
 
-### Problem it addresses     
+应用程序定义和镜像构建是一个广泛的类别，可分为两个主要子类。首先，面向开发人员的工具，可帮助将应用程序代码构建为容器和/或 Kubernetes。其次，面向运营的工具可以以标准化的方式部署应用程序。无论您是要加快还是简化开发环境，提供标准化的方式来部署第三方应用程序，还是希望简化编写新的 Kubernetes 扩展的过程，这个类别都有很多优化 Kubernetes 开发人员和运营商体验而设计的项目。
 
-Kubernetes, and containerized environments more generally, are incredibly flexible and powerful. 
-With that flexibility also comes complexity, mainly in the form of multiple configuration options 
-as well as multiple demands for the various use cases. Developers need the ability to create 
-reproducible images when they containerize their code. Operators need a standardized way to deploy 
-apps into container environments, and finally, platform teams need to provide tools to simplify 
-image creation and application deployment, both for in-house and third party applications.
+#### 它解决什么问题     
 
-### How it Helps
+Kubernetes，或者更普遍的说容器化环境，具有极大的灵活性和强大的功能。随着这种灵活性的增加，也带来了复杂性，主要体现在多个配置选项以及各种用例的多种需求形式上。开发人员需要在将其代码容器化时创建可重复的图像。运营商需要以标准化的方式将应用程序部署到容器环境中，最后，平台团队需要提供工具，以简化内部和第三方应用程序的图像创建和应用程序部署过程。
+
+#### 它如何帮助（解决问题）
 
 Tools in this space aim to solve some of these developer or operator challenges. On the developer 
 side, there are tools that simplify the process of extending Kubernetes to build, deploy, and 
@@ -938,7 +596,7 @@ Developing cloud native applications brings a whole new set of challenges callin
 of diverse tools to simplify application build and deployments. As you start addressing operational 
 and developer concerns in your environment, look for tools in this category.
 
-### Technical 101
+#### Technical 101
 
 Application definition and build tools encompass a huge range of functionality. From extending 
 Kubernetes to virtual machines with KubeVirt, to speeding app development by allowing you to port 
@@ -968,7 +626,7 @@ You’ll likely find something that meets your needs.
 <section data-subcategory="Continuous Integration & Delivery"
          data-buzzwords="CI/CD, Continuous integration, Continuous delivery, Continuous deployment, Blue/green, Canary deploy">
 
-### What it is
+#### 它是什么
 
 Continuous integration (CI) and continuous delivery (CD) tools enable fast and efficient development 
 with embedded quality assurance. CI automates code changes by immediately building and testing the 
@@ -979,7 +637,7 @@ Mature CI/CD systems watch source code for changes, automatically build and test
 begin moving it from development to production where it has to pass a variety of tests or validation 
 to determine if the process should continue or fail. Tools in this category enable such an approach.
 
-### Problem it addresses
+#### 它解决什么问题
 
 Building and deploying applications is a difficult and error-prone process, particularly when it 
 involves a lot of human intervention and manual steps. The longer a developer works on a piece of 
@@ -995,7 +653,7 @@ leverage Kubernetes itself to build, run, and manage the CI/CD process, often re
 pipeline. Kubernetes also provides information about app health, enabling cloud native CI/CD tools 
 to more easily determine if a given change was successful or should be rolled back.
 
-### How it helps
+#### 它如何帮助（解决问题）
 
 CI tools ensure that any code change or updates developers introduce are built, validated, and 
 integrated with other changes automatically and continuously. Each time a developer adds an update, 
@@ -1008,7 +666,7 @@ it into a dev, test, pre-production, and finally production environment. It does
 the deployed app after each step in the process. All together these systems represent a CI/CD 
 pipeline for that web app.
 
-### Technical 101
+#### Technical 101
 
 Over time, a number of tools have been built to help with the process of moving code from a source 
 code repository to production. Like most other areas of computing, the advent of cloud native 
@@ -1066,7 +724,7 @@ here, consider it a reliability tool rather than an observability or analysis to
 <section data-subcategory="Monitoring"
          data-buzzwords="Monitoring, Time series, Alerting, Metrics">
 
-### What it is
+#### 它是什么
 
 Monitoring refers to instrumenting an app to collect, aggregate, and analyze logs and metrics to 
 improve our understanding of its behavior. While logs describe specific events, metrics are a 
@@ -1076,21 +734,21 @@ space, CPU usage, and memory consumption on individual nodes to doing detailed s
 transactions to see if a system or application is responding correctly and in a timely manner. 
 There are a number of different approaches to monitor systems and applications.
 
-### Problem it addresses
+#### 它解决什么问题
 
 When running an application or platform, you want it to accomplish a specific task as designed and 
 ensure it's only accessed by authorized users. Monitoring allows you to know if it is working 
 correctly, securely, cost effectively, only accessed by authorized users, as well as any other 
 characteristic you may be tracking.
 
-### How it helps
+#### 它如何帮助（解决问题）
 
 Good monitoring allows operators to respond quickly, and even automatically, when an incident 
 arises. It provides insights into the current health of a system and watches for changes. 
 Monitoring tracks everything from application health to user behaviour and is an essential 
 part of effectively running applications.
 
-### Technical 101
+#### Technical 101
 
 Monitoring in a cloud native context is generally similar to monitoring traditional applications. 
 You need to track metrics, logs, and events to understand the health of your applications. The 
@@ -1104,7 +762,7 @@ Prometheus, the CNCF graduated project.
 <section data-subcategory="Logging"
          data-buzzwords="Logging">
 
-### What it is
+#### 它是什么
 
 Applications emit a steady stream of log messages describing what they are doing at any given time. 
 These log messages capture various events happening in the system such as failed or successful 
@@ -1112,14 +770,14 @@ actions, audit information, or health events. Logging tools collect, store, and 
 messages to track error reports and related data. Along with metrics and tracing, logging is one 
 of the pillars of observability.
 
-### Problem it addresses
+#### 它解决什么问题
 
 Collecting, storing, and analyzing logs is a crucial part of building a modern platform and 
 logging performs one or all of those tasks. Some tools handle every aspect from collection to 
 analysis while others focus on a single task like collection. All logging tools aim at helping 
 organizations gain control over their log messages.
 
-### How it helps
+#### 它如何帮助（解决问题）
 
 When collecting, storing, and analyzing application log messages, you'll understand what an 
 application was communicating at any given time. But as logs only represent messages that 
@@ -1128,7 +786,7 @@ given issue. That being said, collecting and retaining log messages over time is
 powerful capability and will help teams diagnose issues and meet regulatory and compliance 
 requirements.
 
-### Technical 101
+#### Technical 101
 
 Collecting, storing, and processing log messages is by no means a new problem, but cloud native 
 patterns and Kubernetes have significantly changed the way logs are handled. Some traditional 
@@ -1145,27 +803,27 @@ Fluentd is the only CNCF project in this space.
 <section data-subcategory="Tracing"
          data-buzzwords="Span, Tracing">
 
-### What it is
+#### 它是什么
 
 In a microservices world, services are constantly communicating with each other over the network. 
 Tracing, a specialized use of logging, allows you to trace the path of a request as it moves 
 through a distributed system.
 
-### Problem It addresses
+#### 它解决什么问题
 
 Understanding how a microservice application behaves at any given point in time is an extremely 
 challenging task. While many tools provide deep insights into service behavior, it can be difficult 
 to tie an action of an individual service to the broader understanding of how the entire app 
 behaves.
 
-### How it helps
+#### 它如何帮助（解决问题）
 
 Tracing solves this problem by adding a unique identifier to messages sent by the application. 
 That unique identifier allows you to follow (or trace) individual transactions as they move through 
 your system. You can use this information to see the health of your application as well as 
 debug problematic microservices or activities.
 
-### Technical 101
+#### Technical 101
 
 Tracing is a very powerful debugging tool that allows you to troubleshoot and fine tune the 
 behaviour of a distributed application. That power does come at a cost. Application code needs 
@@ -1179,14 +837,14 @@ projects in this space.
 <section data-subcategory="Chaos Engineering"
          data-buzzwords="Chaos Engineering">
 
-### What it is
+#### 它是什么
 
 Chaos engineering refers to the practice of intentionally introducing faults into a system in 
 order to test its resilience and ensure applications and engineering teams are able to withstand 
 turbulent and unexpected events. A chaos engineering tool will provide a controlled way to 
 introduce faults and run specific experiments against a particular instance of an application.
 
-### Problem it addresses  
+#### 它解决什么问题  
 
 Complex systems fail. They fail for a host of reasons and in a distributed system the consequences 
 are typically hard to understand. Chaos engineering is embraced by organizations that accept that 
@@ -1204,7 +862,7 @@ This is referred to as optimizing for
 > high performing IT organizations achieve high availability by optimizing for mean time to 
 > recovery, or MTTR, instead.
 
-### How it Helps
+#### 它如何帮助（解决问题）
 In a cloud native world, applications must dynamically adjust to failures, a relatively new 
 concept. That means, when something fails, the system doesn't go down completely but gracefully 
 degrades or recovers. Chaos engineering tools enable you to experiment on a software system in 
@@ -1215,7 +873,7 @@ turbulent and unexpected conditions. Instead of waiting for something to happen 
 place it under duress in controlled conditions to identify weaknesses and fix them before chance 
 uncovers them for you.
 
-### Technical 101
+#### Technical 101
 
 Chaos engineering tools and practices are critical to achieving high availability for your 
 applications. Distributed systems are often too complex to be fully understood by any one engineer 
@@ -1261,7 +919,7 @@ is at the core of the cloud native stack.
 
 <section data-subcategory="Certified Kubernetes - Distribution">
 
-#### What it is
+#### 它是什么
 
 A distribution, or distro, is when a vendor takes core Kubernetes — that's the unmodified, open 
 source code (although some modify it) — and packages it for redistribution. Usually this entails 
@@ -1285,7 +943,7 @@ deployed to their clusters and what settings to use to ensure their platforms ar
 and efficient. All this requires deep Kubernetes expertise that may not be readily available 
 in-house.
 
-#### How it helps
+#### 它如何帮助（解决问题）
 
 Kubernetes distributions provide a trusted and reliable way to install Kubernetes and provide 
 opinionated defaults that create a better and more secure operating environment. A Kubernetes 
@@ -1322,21 +980,21 @@ you to think carefully about your needs when you begin evaluating distributions.
 <section data-subcategory="Certified Kubernetes - Hosted"
          data-buzzwords="Hosted">
 
-#### What it is
+#### 它是什么
 
 Hosted Kubernetes is a service offered by infrastructure providers like AWS, Digital Ocean, Azure, 
 and Google, allowing customers to spin up a Kubernetes cluster on-demand. The cloud provider 
 takes responsibility for managing part of the Kubernetes cluster, usually called the control plane. 
 They are similar to distributions but managed by the cloud provider on their infrastructure.
 
-#### Problem it addresses
+#### 它解决什么问题
 
 Hosted Kubernetes allows teams to get started with Kubernetes without knowing or doing anything 
 beyond setting up an account with a cloud vendor. It solves four of the five Ws of getting started 
 with Kubernetes. Who (manages it): your cloud provider; what: their hosted Kubernetes offering; 
 when: now; and where: on the cloud providers infrastructure. The why is up to you.
 
-#### How it Helps
+#### 它如何帮助（解决问题）
 
 Since the provider takes care of all management details, hosted Kubernetes is the easiest way to 
 get started with cloud native. All users have to do is develop their apps and deploy them on the 
@@ -1365,27 +1023,27 @@ Kubernetes cluster than DIY Kubernetes clusters.
 <section data-subcategory="Certified Kubernetes - Installer"
          data-buzzwords="Installer">
 
-### What it is
+#### 它是什么
 
 Kubernetes installers help install Kubernetes on a machine. They automate the Kubernetes 
 installation and configuration process and may even help with upgrades. Kubernetes installers 
 are often coupled with or used by Kubernetes distributions or hosted Kubernetes offerings.
 
-### Problem it addresses  
+#### 它解决什么问题  
 
 Similar to Kubernetes distributions, Kubernetes installers simplify getting started with 
 Kubernetes. Open source Kubernetes relies on installers like kubeadm which, as of this writing, 
 is part of the Certified Kubernetes Administrator certification exam to get Kubernetes clusters 
 up and running.
 
-### How it helps
+#### 它如何帮助（解决问题）
 
 Kubernetes installers ease the Kubernetes installation process. Like distributions, they provide a 
 vetted source for the source code and version. They also often ship with opinionated Kubernetes 
 environment configurations. Kubernetes installers like [kind](https://kind.sigs.k8s.io/) 
 (Kubernetes in Docker) allow you to get a Kubernetes cluster with a single command.
 
-### Technical 101
+#### Technical 101
 
 Whether you’re installing Kubernetes locally on Docker, spinning up and provisioning new virtual 
 machines, or preparing new physical servers, you’re going to need a tool to handle all the 
@@ -1405,21 +1063,21 @@ Kubernetes installer projects.
 <section data-subcategory="PaaS/Container Service"
          data-buzzwords="">
 
-### What it is
+#### 它是什么
 
 A Platform-as-a-Service, or PaaS, is an environment that allows users to run applications 
 without necessarily concerning themselves with the details of the underlying compute resources. 
 PaaS and container services in this category are mechanisms to either host a PaaS for developers 
 or host services they can use.
 
-### Problem it addresses  
+#### 它解决什么问题  
 
 We’ve talked a lot about the tools and technologies around cloud native. A PaaS attempts to 
 connect many of the technologies found in this landscape in a way that provides direct value 
 to developers. It answers the following questions: how will I run applications in various 
 environments? And, once running, how will my team and users interact with them?
 
-### How it helps
+#### 它如何帮助（解决问题）
 
 PaaS provides opinions and choices around how to piece together the various open and closed 
 source tools needed to run applications. Many offerings include tools that handle PaaS installation 
@@ -1428,7 +1086,7 @@ Additionally, PaaS handles the runtime needs of application instances, including
 scaling of individual components and visibility into the performance and log messages of 
 individual apps.
 
-### Technical 101
+#### Technical 101
 
 Organizations are adopting cloud native technologies to achieve specific business or 
 organizational objectives. A PaaS provides a quicker path to value than building a custom 
